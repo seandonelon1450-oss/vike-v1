@@ -1,167 +1,297 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" data-theme="light">
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
-<meta name="theme-color" content="#03070d">
+<meta name="theme-color" content="#FAF8F4">
+<meta name="description" content="V.I.K.e — a private safety read for the dating world. Screen the messages, keep your file, get home safe.">
 <meta name="apple-mobile-web-app-capable" content="yes">
-<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<meta name="apple-mobile-web-app-status-bar-style" content="default">
 <meta name="apple-mobile-web-app-title" content="V.I.K.e">
-<title>V.I.K.e™ — Your Safety Copilot</title>
+<title>V.I.K.e™ — Get home safe.</title>
 <link rel="stylesheet" href="/styles.css">
 <link rel="icon" type="image/png" href="/icons/icon-192.png">
 <link rel="apple-touch-icon" href="/icons/icon-180.png">
 <link rel="manifest" href="/manifest.webmanifest">
+<script>
+/* Theme before paint: stored choice wins, otherwise follow the OS. */
+(function () {
+  try {
+    var t = localStorage.getItem('vike_theme');
+    if (!t) t = (window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches) ? 'dark' : 'light';
+    document.documentElement.setAttribute('data-theme', t);
+  } catch (e) { document.documentElement.setAttribute('data-theme', 'light'); }
+})();
+</script>
 </head>
 <body>
+<a class="skip" href="#main">Skip to content</a>
 
-<header class="topbar">
-  <div class="brand">
-    <svg class="mark" viewBox="0 0 120 120" aria-hidden="true">
-      <circle cx="60" cy="60" r="56" fill="#0a1f33"/>
-      <circle cx="60" cy="60" r="56" fill="none" stroke="#22d3ee" stroke-opacity=".6" stroke-width="2"/>
-      <path d="M38 50 Q60 40 82 50" stroke="#9be9f7" stroke-width="4" fill="none" stroke-linecap="round"/>
-      <path d="M40 64 Q49 57 58 64 Q49 70 40 64 Z" fill="none" stroke="#9be9f7" stroke-width="3"/>
-      <path d="M62 64 Q71 57 80 64 Q71 70 62 64 Z" fill="none" stroke="#9be9f7" stroke-width="3"/>
-      <circle cx="49" cy="63" r="2.6" fill="#22d3ee"/>
-      <circle cx="71" cy="63" r="2.6" fill="#22d3ee"/>
+<header class="site-header">
+  <a class="brand" href="/" aria-label="V.I.K.e home">
+    <svg class="arch" viewBox="0 0 48 48" aria-hidden="true">
+      <g fill="none" stroke="currentColor" stroke-width="4" stroke-linecap="round">
+        <path d="M8 42 V24 A16 16 0 0 1 40 24 V42"/>
+        <path d="M17 42 V27 A7 7 0 0 1 31 27 V42"/>
+      </g>
     </svg>
     <span class="wordmark">V.I.K.e<sup>™</sup></span>
+  </a>
+  <nav class="site-nav" aria-label="Site">
+    <a href="/about.html">About</a>
+    <a href="/data.html">Your data</a>
+    <a href="/faq.html">FAQ</a>
+    <a href="/contact.html">Contact</a>
+  </nav>
+  <div class="header-right">
+    <span class="powered-badge" aria-label="Powered by Arbor">
+      <svg class="arch" viewBox="0 0 48 48" aria-hidden="true">
+        <g fill="none" stroke="currentColor" stroke-width="4" stroke-linecap="round">
+          <path d="M8 42 V24 A16 16 0 0 1 40 24 V42"/>
+          <path d="M17 42 V27 A7 7 0 0 1 31 27 V42"/>
+        </g>
+      </svg>
+      <span class="pb-powered">powered by</span><span class="pb-arbor">Arbor</span>
+    </span>
+    <button id="themeToggle" class="theme-toggle" aria-pressed="false" aria-label="Toggle dark mode">
+      <span aria-hidden="true" id="themeIcon">◐</span><span class="theme-label">Theme</span>
+    </button>
+    <span id="modeBadge" class="badge badge-loading">…</span>
   </div>
-  <div id="modeBadge" class="badge badge-loading">…</div>
 </header>
 
-<main class="wrap">
+<main id="main" class="container app-main">
 
-  <!-- ============ HOME / SUMMON ============ -->
+  <div id="inviteBanner" class="invite-banner" hidden>
+    <strong>A founding member invited you here.</strong>
+    She wants you protected. Take a look around — and request an invite below.
+  </div>
+
+  <!-- ============ HOME: finished work, never a blank box ============ -->
   <section id="screen-home" class="screen active" aria-label="Home">
-    <div class="guardian" id="guardianFace" aria-hidden="true">
-      <svg viewBox="0 0 200 200">
-        <defs>
-          <radialGradient id="gface" cx="50%" cy="40%" r="70%">
-            <stop offset="0%" stop-color="#16456e"/>
-            <stop offset="100%" stop-color="#0a1f33"/>
-          </radialGradient>
-        </defs>
-        <circle cx="100" cy="100" r="94" fill="url(#gface)"/>
-        <circle cx="100" cy="100" r="94" fill="none" stroke="#22d3ee" stroke-opacity=".55" stroke-width="2"/>
-        <circle cx="100" cy="100" r="78" fill="none" stroke="#22d3ee" stroke-opacity=".28" stroke-width="1.5" stroke-dasharray="5 8" class="ring-spin"/>
-        <path d="M62 82 Q100 66 138 82" stroke="#9be9f7" stroke-width="6" fill="none" stroke-linecap="round"/>
-        <path d="M64 106 Q79 96 94 106 Q79 116 64 106 Z" fill="none" stroke="#9be9f7" stroke-width="4.5"/>
-        <path d="M106 106 Q121 96 136 106 Q121 116 106 106 Z" fill="none" stroke="#9be9f7" stroke-width="4.5"/>
-        <circle cx="79" cy="105" r="4" fill="#22d3ee" class="pupil"/>
-        <circle cx="121" cy="105" r="4" fill="#22d3ee" class="pupil"/>
-        <line x1="30" y1="100" x2="170" y2="100" stroke="#22d3ee" stroke-opacity=".5" stroke-width="1.5" class="scanline"/>
-      </svg>
+    <div class="hero reveal-in">
+      <p class="eyebrow">V.I.K.e™ · a private safety read for the dating world</p>
+      <h1 class="display">Get home safe.</h1>
+      <p class="lede">Vicky reads the messages — the patterns, the pressure, the inconsistencies — and drafts what you could say back. She never sends anything. You decide, always.</p>
     </div>
-    <h1 class="hero-line">I&rsquo;m here.<br>Ready to listen.</h1>
-    <p class="sub">Show me the messages. I&rsquo;ll read the patterns — the manipulation, the scams, the pressure — before they cost you.</p>
 
-    <button id="summonBtn" class="summon" aria-label="Summon Vicky">
-      <span class="mic" aria-hidden="true">◉</span> Hey Vicky<sup>™</sup>
-    </button>
-    <p id="summonHint" class="hint">Tap to summon her. She&rsquo;ll ask what happened.</p>
+    <article class="card" data-reveal>
+      <span class="demo-tag">Demo · sample conversation</span>
+      <h2>Tonight's read</h2>
+      <p class="note">Five lines, in his own words — what Vicky sees in one short exchange:</p>
+      <ol class="read-lines">
+        <li><strong>Day-one intensity.</strong> <q>haven't stopped thinking about you since we matched yesterday.</q></li>
+        <li><strong>Future-faking.</strong> <q>I can already see us traveling the world together… when we move in…</q></li>
+        <li><strong>Singling you out.</strong> <q>You're not like other girls on here.</q></li>
+        <li><strong>Off-app pressure.</strong> <q>Can I get your number? Let's move to WhatsApp.</q></li>
+        <li><strong>A check-in wearing caring's clothes.</strong> <q>Who are you with tonight? Just want to make sure you're safe.</q></li>
+      </ol>
+    </article>
 
-    <div class="card founding">
-      <strong>Founding circle</strong>
-      <p>V.I.K.e is in private beta. Founding memberships open soon — founding members fund the build and keep lifetime status.</p>
-      <button id="foundingBtn" class="ghost">Join the founding circle</button>
-      <p id="foundingNote" class="hint"></p>
-    </div>
+    <article class="card" data-reveal>
+      <h2>Drafted for you · review before sending.</h2>
+      <p class="note">Vicky drafted three replies to the exchange above. Copy one only if you choose to — nothing sends itself.</p>
+      <div class="draft">
+        <p class="draft-label">Drafted for you · review before sending.</p>
+        <blockquote>I like taking things at my own pace — let's keep chatting here for now.</blockquote>
+        <button class="btn-ghost" data-copy="I like taking things at my own pace — let's keep chatting here for now.">Copy draft</button>
+      </div>
+      <div class="draft">
+        <p class="draft-label">Drafted for you · review before sending.</p>
+        <blockquote>I'm not comfortable moving off the app yet. If that's a problem, I understand.</blockquote>
+        <button class="btn-ghost" data-copy="I'm not comfortable moving off the app yet. If that's a problem, I understand.">Copy draft</button>
+      </div>
+      <div class="draft">
+        <p class="draft-label">Drafted for you · review before sending.</p>
+        <blockquote>(Say nothing.)</blockquote>
+        <p class="why">Sometimes the strongest move is no reply at all.</p>
+      </div>
+      <p><a class="btn-primary" href="#screen-analyze" data-goto="screen-analyze">Screen your own messages</a></p>
+    </article>
+
+    <article class="card" data-reveal>
+      <span class="demo-tag">Demo · sample plan</span>
+      <h2>Thursday's plan</h2>
+      <ul class="plain">
+        <li><strong>Your own car</strong> — parked where you can leave without asking anyone.</li>
+        <li><strong>A friend knows</strong> — where you'll be, and what time you'll text "home safe".</li>
+        <li><strong>One reason to leave early</strong> — that needs no excuse.</li>
+      </ul>
+      <h3>Your "home safe?" check-in</h3>
+      <p class="note">Tell a friend the plan. The message opens pre-written — nothing sends until you tap send.</p>
+      <label class="field-label" for="checkinName">Her name</label>
+      <input id="checkinName" type="text" autocomplete="off" placeholder="e.g. Maya">
+      <label class="field-label" for="checkinPhone">Her number <span class="opt">(opens your messaging app)</span></label>
+      <input id="checkinPhone" type="tel" autocomplete="off" placeholder="(504) 555-0134">
+      <div class="row">
+        <button id="checkinBtn" class="btn-secondary">Text my check-in plan</button>
+      </div>
+      <p id="checkinStatus" class="status" role="status"></p>
+    </article>
+
+    <article class="card" id="invite" data-reveal>
+      <h2>Request an invite</h2>
+      <p class="note">The founding circle — 100 seats, $39/month locked for life — opens after our payment test passes. Leave your email and we'll write when your seat is ready. No charge today, no card asked.</p>
+      <form id="waitlistForm" novalidate>
+        <label class="field-label" for="wlName">Your name <span class="opt">(optional)</span></label>
+        <input id="wlName" type="text" autocomplete="name" placeholder="Your name">
+        <label class="field-label" for="wlEmail">Email</label>
+        <input id="wlEmail" type="email" autocomplete="email" placeholder="you@example.com" required>
+        <div class="row">
+          <button id="waitlistBtn" type="submit" class="btn-primary">Request an invite</button>
+        </div>
+      </form>
+      <p id="waitlistStatus" class="status" role="status"></p>
+      <p class="hint"><a href="/data.html">Your data</a> — what we hold, and the one-tap export and delete.</p>
+    </article>
+
+    <article class="card" data-reveal>
+      <h2>Nominate a woman</h2>
+      <p class="note">Know someone who should be protected? Hold her a place in the circle.</p>
+      <label class="field-label" for="nomYourName">Your name</label>
+      <input id="nomYourName" type="text" autocomplete="off" placeholder="Your name">
+      <label class="field-label" for="nomHerName">Her name</label>
+      <input id="nomHerName" type="text" autocomplete="off" placeholder="Her name">
+      <label class="field-label" for="nomHerContact">Her email or phone <span class="opt">(so we can reach her)</span></label>
+      <input id="nomHerContact" type="text" autocomplete="off" placeholder="Email or phone">
+      <label class="field-label" for="nomWhy">Why her <span class="opt">(optional)</span></label>
+      <input id="nomWhy" type="text" autocomplete="off" placeholder="A line about her">
+      <div class="row">
+        <button id="nominateBtn" class="btn-secondary">Nominate her</button>
+      </div>
+      <p id="nominateStatus" class="status" role="status"></p>
+    </article>
   </section>
 
   <!-- ============ ANALYZE ============ -->
   <section id="screen-analyze" class="screen" aria-label="Analyze">
-    <h2>Screen a conversation</h2>
-    <p class="note">Show me what he sent — from a match, or anyone. I&rsquo;ll flag manipulation patterns, scam markers, off-app pressure, and contradictions. I read words and patterns only: never hidden intent, never lie detection.</p>
-    <textarea id="incidentInput" rows="6" placeholder="Show me what he sent…"></textarea>
-    <div class="row">
-      <button id="dictateBtn" class="ghost">🎙 Dictate</button>
-      <button id="analyzeBtn" class="primary">Analyze</button>
+    <div class="reading">
+      <h2>Screen a conversation</h2>
+      <p class="note">Show me what he sent — from a match, or anyone. I'll flag manipulation patterns, scam markers, off-app pressure, contradictions, and a five-line personality readout. I read words and patterns only: never hidden intent, never lie detection, never a diagnosis.</p>
+      <p class="note"><strong>Screenshots:</strong> V.I.K.e doesn't take photos or screenshots — you paste text, so there's nothing uploaded, nothing stored, and no photo metadata to strip. <a href="/data.html">Your data</a></p>
+      <details class="card how">
+        <summary><strong>How Vicky reads people — the 5 personality lines</strong></summary>
+        <p class="note">She doesn't read minds. She reads <em>patterns</em> — the same five lines, every time:</p>
+        <ol class="how-list">
+          <li><strong>Texting rhythm</strong> — how he handles closeness and distance: pursuit, withdrawal, testing, popping back up.</li>
+          <li><strong>Who the conversation is really about</strong> — does he track your feelings, or only his own?</li>
+          <li><strong>Control moves</strong> — isolation, monitoring, decisions that stop being yours.</li>
+          <li><strong>Hot-and-cold rewards</strong> — love-bombing into withdrawal; affection on a random schedule.</li>
+          <li><strong>The consistency ledger</strong> — story vs. story across time. Week one vs. week four.</li>
+        </ol>
+        <p class="note">Every result shows each line's name, the markers she actually saw (with his own words), what it tends to mean, and one concrete thing to do about it. She describes what she can <em>see in the words</em> — never a diagnosis, never a label. She's a screening tool, not a doctor's office. Demo mode runs on pattern matching, not AI.</p>
+      </details>
+      <label class="field-label" for="incidentInput">What he sent</label>
+      <textarea id="incidentInput" rows="6" placeholder="Paste what he sent…"></textarea>
+      <div class="row">
+        <button id="dictateBtn" class="btn-ghost">🎙 Dictate</button>
+        <button id="analyzeBtn" class="btn-primary">Analyze</button>
+      </div>
+      <div class="row samples">
+        <button class="btn-ghost sample" data-sample="lovebomb">Try: love-bombing</button>
+        <button class="btn-ghost sample" data-sample="scam">Try: scam attempt</button>
+        <button class="btn-ghost sample" data-sample="normal">Try: normal chat</button>
+      </div>
+      <p class="hint">Samples are fictional demo data — clearly labeled, for trying the workflow.</p>
+      <p id="dictateNote" class="hint"></p>
+      <p id="analyzeStatus" class="status" role="status"></p>
+      <div id="results"></div>
     </div>
-    <div class="row samples">
-      <button class="ghost sample" data-sample="lovebomb">Try: love-bombing</button>
-      <button class="ghost sample" data-sample="scam">Try: scam attempt</button>
-      <button class="ghost sample" data-sample="normal">Try: normal chat</button>
-    </div>
-    <p class="hint">Samples are fictional demo data — clearly labeled, for trying the workflow.</p>
-    <p id="dictateNote" class="hint"></p>
-    <p id="analyzeStatus" class="hint" role="status"></p>
-    <div id="results"></div>
   </section>
 
   <!-- ============ RESPOND ============ -->
   <section id="screen-respond" class="screen" aria-label="Respond">
-    <h2>What I would say</h2>
-    <p class="note">I draft. <strong>You</strong> decide. I never send anything myself — copy a draft only if you choose to.</p>
-    <div id="drafts"><p class="hint">Analyze a message first, and your drafts will appear here.</p></div>
+    <div class="reading">
+      <h2>What I would say</h2>
+      <p class="note">I draft. <strong>You</strong> decide. I never send anything myself — copy a draft only if you choose to.</p>
+      <div id="drafts"><p class="hint">Analyze a message first, and your drafts will appear here.</p></div>
+    </div>
   </section>
 
   <!-- ============ EVIDENCE ============ -->
   <section id="screen-evidence" class="screen" aria-label="Your file">
-    <h2>Your file</h2>
-    <div class="honesty">
-      <strong>Personal log — not forensic evidence.</strong>
-      This is your own contemporaneous record: what you received, when, and what V.I.K.e made of it.
-      It is stored <strong>only in this browser on this device</strong>. The server never sees it.
-      It is not chain-of-custody and makes no legal claims.
-    </div>
-    <button id="saveEvidenceBtn" class="primary">Save current analysis</button>
-    <div id="evidenceList" class="elist"></div>
-    <div class="row">
-      <button id="exportBtn" class="ghost">Export file</button>
-      <button id="clearEvidenceBtn" class="danger-ghost">Delete all</button>
+    <div class="reading">
+      <h2>Your file</h2>
+      <div class="honesty">
+        <strong>Personal log — not forensic evidence.</strong>
+        This is your own contemporaneous record: what you received, when, and what V.I.K.e made of it.
+        It is stored <strong>only in this browser on this device</strong>. The server never sees it.
+        It is not chain-of-custody and makes no legal claims.
+      </div>
+      <button id="saveEvidenceBtn" class="btn-primary">Save current analysis</button>
+      <div id="evidenceList" class="elist"></div>
+      <div class="row">
+        <button id="exportBtn" class="btn-ghost">Export file (text)</button>
+        <button id="exportJsonBtn" class="btn-ghost">Export file (JSON)</button>
+        <button id="clearEvidenceBtn" class="btn-danger-ghost">Delete all</button>
+      </div>
+      <p class="hint">Export and delete are also one tap away on the <a href="/data.html">Your data</a> page.</p>
     </div>
   </section>
 
-  <!-- ============ PRIVACY ============ -->
-  <section id="screen-privacy" class="screen" aria-label="Trust">
-    <h2>Trust, plainly</h2>
-    <ul class="plain">
-      <li><strong>What you paste is analyzed on our server.</strong> V1 trades on-device processing for speed while we build the private, on-device V2. That is the honest tradeoff.</li>
-      <li><strong>We do not train on your data.</strong> Inputs exist only for the request, then they&rsquo;re gone. The server keeps no logs of what you pasted and no database at all.</li>
-      <li><strong>Your evidence file never leaves this device.</strong> It lives in this browser&rsquo;s local storage. We cannot see it, back it up, or recover it.</li>
-      <li><strong>Delete means delete.</strong> Removing entries clears them from this browser. There is nothing on any server to clear, because nothing was ever sent there.</li>
-      <li><strong>V.I.K.e is clearly-disclosed AI</strong> (or, in demo mode, clearly-labeled pattern matching). She analyzes words and patterns. She does not detect lies, read minds, contact anyone, or intervene.</li>
-    </ul>
-    <p class="note">V2 north star: fully on-device processing — nothing you paste ever leaves your phone. We will say so only when it is true.</p>
-  </section>
-
+  <!-- ============ CIRCLE ============ -->
   <section id="screen-circle" class="screen" aria-label="Your circle">
-    <h2>Your circle</h2>
-    <p class="note">V.I.K.e grows the way trust grows — one invitation at a time. Share her only with someone you would vouch for. Nothing public, nothing viral.</p>
+    <div class="reading">
+      <h2>Your circle</h2>
+      <p class="note">V.I.K.e grows the way trust grows — one invitation at a time. Share her only with someone you would vouch for. Nothing public, nothing viral.</p>
 
-    <div class="card">
-      <h3>Your personal invite code</h3>
-      <p class="note">Give this code to someone you trust. When they enter it, their circle knows they came through you.</p>
-      <div class="code-row">
-        <code id="myInviteCode" class="invite-code">…</code>
-        <button id="copyCodeBtn" class="ghost">Copy</button>
+      <div class="card">
+        <h3>Your personal invite code</h3>
+        <p class="note">Give this code to someone you trust. When they enter it, their circle knows they came through you.</p>
+        <div class="code-row">
+          <code id="myInviteCode" class="invite-code">…</code>
+          <button id="copyCodeBtn" class="btn-ghost">Copy</button>
+        </div>
+      </div>
+
+      <div class="card">
+        <h3>Share with someone you trust</h3>
+        <label class="field-label" for="shareName">Her name <span class="opt">(optional — just so you remember)</span></label>
+        <input id="shareName" type="text" autocomplete="off" placeholder="e.g. Maya">
+        <button id="shareBtn" class="btn-primary">Share privately</button>
+        <p class="hint">Opens your phone's private share sheet (Messages, WhatsApp…) — your choice, no social widgets, nothing posted anywhere.</p>
+      </div>
+
+      <div class="card" id="invitedByCard">
+        <h3>Were you invited?</h3>
+        <div id="invitedByForm">
+          <label class="field-label" for="inviterCode">Enter the invite code you were given</label>
+          <input id="inviterCode" type="text" autocomplete="off" autocapitalize="characters" placeholder="VK-XXXXXX">
+          <button id="redeemBtn" class="btn-ghost">Enter</button>
+        </div>
+        <p id="invitedByNote" class="note hidden"></p>
+      </div>
+
+      <div class="card">
+        <h3>People you've shared with</h3>
+        <ul id="shareList" class="plain share-list"></ul>
+        <p id="shareEmpty" class="note">No one yet. Your circle starts with the first person you trust with this.</p>
       </div>
     </div>
+  </section>
 
-    <div class="card">
-      <h3>Share with someone you trust</h3>
-      <label class="field-label" for="shareName">Her name <span class="muted">(optional — just so you remember)</span></label>
-      <input id="shareName" type="text" autocomplete="off" placeholder="e.g. Maya" />
-      <button id="shareBtn" class="primary">Share privately</button>
-      <p class="hint">Opens your phone&rsquo;s private share sheet (Messages, WhatsApp…) — your choice, no social widgets, nothing posted anywhere.</p>
-    </div>
-
-    <div class="card" id="invitedByCard">
-      <h3>Were you invited?</h3>
-      <div id="invitedByForm">
-        <label class="field-label" for="inviterCode">Enter the invite code you were given</label>
-        <input id="inviterCode" type="text" autocomplete="off" autocapitalize="characters" placeholder="VK-XXXXXX" />
-        <button id="redeemBtn" class="ghost">Enter</button>
-      </div>
-      <p id="invitedByNote" class="note hidden"></p>
-    </div>
-
-    <div class="card">
-      <h3>People you&rsquo;ve shared with</h3>
-      <ul id="shareList" class="plain share-list"></ul>
-      <p id="shareEmpty" class="note">No one yet. Your circle starts with the first person you trust with this.</p>
+  <!-- ============ TRUST ============ -->
+  <section id="screen-privacy" class="screen" aria-label="Trust">
+    <div class="reading">
+      <h2>Trust, plainly</h2>
+      <ul class="plain">
+        <li><strong>What you paste is analyzed on our server.</strong> V1 trades on-device processing for speed while we build the private, on-device V2. That is the honest tradeoff.</li>
+        <li><strong>We do not train on your data.</strong> Inputs exist only for the request, then they're gone. The server keeps no logs of what you pasted and no database at all.</li>
+        <li><strong>Your evidence file never leaves this device.</strong> It lives in this browser's local storage. We cannot see it, back it up, or recover it.</li>
+        <li><strong>Delete means delete.</strong> Removing entries clears them from this browser. There is nothing on any server to clear, because nothing was ever sent there.</li>
+        <li><strong>Screenshots: there are none.</strong> V.I.K.e doesn't accept photo or screenshot uploads — you paste text — so there's nothing uploaded, nothing stored, and no photo metadata to strip.</li>
+        <li><strong>V.I.K.e is clearly-disclosed AI</strong> (or, in demo mode, clearly-labeled pattern matching). She analyzes words and patterns. She does not detect lies, read minds, contact anyone, or intervene.</li>
+      </ul>
+      <p class="note">V2 north star: fully on-device processing — nothing you paste ever leaves your phone. We will say so only when it is true.</p>
+      <p class="note">The full 10-point charter, with working export and delete, lives on the <a href="/data.html">Your data</a> page.</p>
+      <h3>Need help right now?</h3>
+      <p class="note">V.I.K.e is a screening tool — not a crisis service. If you or someone you love is in danger, these people answer 24/7, free and confidential:</p>
+      <ul class="plain">
+        <li><strong>National Domestic Violence Hotline:</strong> call <a href="tel:18007997233">1-800-799-7233</a> or text START to 88788</li>
+        <li><strong>Louisiana statewide hotline:</strong> <a href="tel:18884111333">1-888-411-1333</a></li>
+        <li><strong>Crescent House (New Orleans, 24-hour crisis line):</strong> <a href="tel:15048669554">(504) 866-9554</a></li>
+      </ul>
+      <p class="note">If you're in immediate danger, call 911.</p>
     </div>
   </section>
 
@@ -173,6 +303,58 @@
   <div id="emergencyList" class="erow"></div>
 </div>
 
+<footer class="site-footer">
+  <div class="foot-grid">
+    <div>
+      <div class="foot-brand">
+        <svg class="arch" viewBox="0 0 48 48" aria-hidden="true">
+          <g fill="none" stroke="currentColor" stroke-width="4" stroke-linecap="round">
+            <path d="M8 42 V24 A16 16 0 0 1 40 24 V42"/>
+            <path d="M17 42 V27 A7 7 0 0 1 31 27 V42"/>
+          </g>
+        </svg>
+        <span class="wordmark">V.I.K.e<sup>™</sup></span>
+      </div>
+      <p>Get home safe.<br>A private safety read for the dating world.</p>
+    </div>
+    <div>
+      <h4>Product</h4>
+      <ul>
+        <li><a href="#screen-analyze" data-goto="screen-analyze">Screen a conversation</a></li>
+        <li><a href="#screen-evidence" data-goto="screen-evidence">Your file</a></li>
+        <li><a href="#screen-circle" data-goto="screen-circle">Your circle</a></li>
+        <li><a href="#invite" data-goto="screen-home">Request an invite</a></li>
+      </ul>
+    </div>
+    <div>
+      <h4>Trust</h4>
+      <ul>
+        <li><a href="/about.html">About V.I.K.e</a></li>
+        <li><a href="/data.html">Your data</a></li>
+        <li><a href="/faq.html">FAQ</a></li>
+        <li><a href="/contact.html">Contact</a></li>
+      </ul>
+    </div>
+    <div>
+      <h4>Talk to a person</h4>
+      <p>A real person answers:<br><a href="mailto:seandonelon.apps@gmail.com">seandonelon.apps@gmail.com</a></p>
+      <p>In danger now? Call 911.</p>
+    </div>
+  </div>
+  <div class="foot-bottom">
+    <span class="powered-badge" aria-label="Powered by Arbor">
+      <svg class="arch" viewBox="0 0 48 48" aria-hidden="true">
+        <g fill="none" stroke="currentColor" stroke-width="4" stroke-linecap="round">
+          <path d="M8 42 V24 A16 16 0 0 1 40 24 V42"/>
+          <path d="M17 42 V27 A7 7 0 0 1 31 27 V42"/>
+        </g>
+      </svg>
+      <span class="pb-powered">powered by</span><span class="pb-arbor">Arbor</span>
+    </span>
+    <p class="foot-line">Powered by Arbor · The Arbor Group · She owns her data.</p>
+  </div>
+</footer>
+
 <nav class="tabbar" aria-label="Sections">
   <button data-screen="screen-home" class="tab active">Home</button>
   <button data-screen="screen-analyze" class="tab">Screen</button>
@@ -182,7 +364,19 @@
   <button data-screen="screen-privacy" class="tab">Trust</button>
 </nav>
 
-<script src="/js/billing.js"></script>
 <script src="/js/app.js"></script>
+<script src="/js/analytics.js"></script>
+<script>
+(function () {
+  try {
+    var m = new URLSearchParams(location.search).get('invite');
+    if (m && /^[A-Z0-9]{4,10}$/.test(m)) {
+      document.getElementById('inviteBanner').hidden = false;
+      try { localStorage.setItem('vike_invited_by', m); } catch (e) {}
+      if (window.trackEvent) window.trackEvent('invite_visit:' + m);
+    }
+  } catch (e) {}
+})();
+</script>
 </body>
 </html>

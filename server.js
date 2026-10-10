@@ -15,12 +15,19 @@
  * =================================================================== */
 const express = require('express');
 const path = require('path');
+const fs = require('fs');
 const { getProvider, providerInfo } = require('./providers');
 
 const app = express();
 const PORT = Number(process.env.PORT || 3000);
 
 app.disable('x-powered-by');
+
+/* ---- Health check (Render healthCheckPath). ---- */
+app.get('/healthz', (req, res) => res.json({ ok: true }));
+
+/* ---- Trust page moved: /trust.html -> /data.html ---- */
+app.get('/trust.html', (req, res) => res.redirect(301, '/data.html'));
 
 /* ---- Stripe billing (webhook needs the RAW body for signature
  * verification, so it is registered BEFORE the JSON parser). ---- */
@@ -100,6 +107,120 @@ app.get('/api/billing/session/:id', async (req, res) => {
   }
 });
 
+
+/* ---- Private analytics: pageviews + conversion events. No third parties,
+ * no cookies, no fingerprinting, no PII. Page + event + timestamp only. ---- */
+const ANALYTICS_FILE = path.join(__dirname, 'data', 'analytics.jsonl');
+app.post('/api/track', (req, res) => {
+  const body = req.body || {};
+  const page = String(body.page || '').slice(0, 120);
+  let event = String(body.event || 'pageview').slice(0, 40);
+  if (!/^[a-z0-9_]+$/.test(event)) event = 'pageview';
+  if (!page.startsWith('/')) return res.status(400).json({ ok: false });
+  const line = JSON.stringify({ ts: new Date().toISOString(), page, event,
+    ua: String(req.headers['user-agent'] || '').slice(0, 120) }) + '\n';
+  try { fs.appendFileSync(ANALYTICS_FILE, line); } catch (e) { /* best effort */ }
+  res.json({ ok: true });
+});
+app.get('/api/stats', (req, res) => {
+  const token = process.env.ANALYTICS_TOKEN;
+  if (!token || req.query.token !== token) return res.status(403).json({ ok: false });
+  let lines = [];
+  try { lines = fs.readFileSync(ANALYTICS_FILE, 'utf8').split('\n').filter(Boolean); }
+  catch (e) { /* no data yet */ }
+  const cutoff = Date.now() - 30 * 24 * 3600 * 1000;
+  const pageviewsByPage = {}, eventsByType = {};
+  let totalPageviews = 0;
+  for (const ln of lines) {
+    try {
+      const r = JSON.parse(ln);
+      if (new Date(r.ts).getTime() < cutoff) continue;
+      eventsByType[r.event] = (eventsByType[r.event] || 0) + 1;
+      if (r.event === 'pageview') {
+        totalPageviews++;
+        pageviewsByPage[r.page] = (pageviewsByPage[r.page] || 0) + 1;
+      }
+    } catch (e) { /* skip bad lines */ }
+  }
+  res.json({ ok: true, days: 30, totalPageviews, pageviewsByPage, eventsByType });
+});
+
+/* ---- Founder nominations: one woman per founder. Stored on the server's
+ * ephemeral disk (same caveat as analytics — check /api/nominations
+ * regularly and export). Viewable only with the analytics token. ---- */
+const NOMINATIONS_FILE = path.join(__dirname, 'data', 'nominations.jsonl');
+app.post('/api/nominate', (req, res) => {
+  const body = req.body || {};
+  const yourName = String(body.yourName || '').trim().slice(0, 120);
+  const herName = String(body.herName || '').trim().slice(0, 120);
+  const herContact = String(body.herContact || '').trim().slice(0, 160);
+  const why = String(body.why || '').trim().slice(0, 500);
+  if (!yourName || !herName) {
+    return res.status(400).json({ ok: false, error: 'Your name and her name are required.' });
+  }
+  const line = JSON.stringify({ ts: new Date().toISOString(), yourName, herName, herContact, why }) + '\n';
+  try { fs.appendFileSync(NOMINATIONS_FILE, line); }
+  catch (e) { return res.status(500).json({ ok: false, error: 'Could not save — try again.' }); }
+  try {
+    fs.appendFileSync(ANALYTICS_FILE, JSON.stringify({
+      ts: new Date().toISOString(), page: '/nominate', event: 'nomination', ua: ''
+    }) + '\n');
+  } catch (e) { /* best effort */ }
+  res.json({ ok: true });
+});
+app.get('/api/nominations', (req, res) => {
+  const token = process.env.ANALYTICS_TOKEN;
+  if (!token || req.query.token !== token) return res.status(403).json({ ok: false });
+  let nominations = [];
+  try {
+    nominations = fs.readFileSync(NOMINATIONS_FILE, 'utf8').split('\n').filter(Boolean)
+      .map((ln) => { try { return JSON.parse(ln); } catch (e) { return null; } })
+      .filter(Boolean);
+  } catch (e) { /* no data yet */ }
+  res.json({ ok: true, count: nominations.length, nominations });
+});
+app.get('/api/founders', (req, res) => {
+  const token = process.env.ANALYTICS_TOKEN;
+  if (!token || req.query.token !== token) return res.status(403).json({ ok: false });
+  const founders = billing.listFounders();
+  res.json({ ok: true, count: founders.length, founders });
+});
+
+/* ---- Invite waitlist: the founding circle checkout stays OFF until the
+ * Stripe webhook is set up and one real test charge + refund passes
+ * (Sean's step). Until then the UI says "Request an invite." Stored on
+ * the server's ephemeral disk — same caveat as nominations: check
+ * /api/waitlist regularly and export. Viewable only with the token. ---- */
+const WAITLIST_FILE = path.join(__dirname, 'data', 'waitlist.jsonl');
+app.post('/api/waitlist', (req, res) => {
+  const body = req.body || {};
+  const name = String(body.name || '').trim().slice(0, 120);
+  const email = String(body.email || '').trim().slice(0, 160);
+  if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) {
+    return res.status(400).json({ ok: false, error: 'Enter a valid email so we can reach you.' });
+  }
+  const line = JSON.stringify({ ts: new Date().toISOString(), name, email }) + '\n';
+  try { fs.appendFileSync(WAITLIST_FILE, line); }
+  catch (e) { return res.status(500).json({ ok: false, error: 'Could not save — try again.' }); }
+  try {
+    fs.appendFileSync(ANALYTICS_FILE, JSON.stringify({
+      ts: new Date().toISOString(), page: '/waitlist', event: 'waitlist_join', ua: ''
+    }) + '\n');
+  } catch (e) { /* best effort */ }
+  res.json({ ok: true });
+});
+app.get('/api/waitlist', (req, res) => {
+  const token = process.env.ANALYTICS_TOKEN;
+  if (!token || req.query.token !== token) return res.status(403).json({ ok: false });
+  let entries = [];
+  try {
+    entries = fs.readFileSync(WAITLIST_FILE, 'utf8').split('\n').filter(Boolean)
+      .map((ln) => { try { return JSON.parse(ln); } catch (e) { return null; } })
+      .filter(Boolean);
+  } catch (e) { /* no data yet */ }
+  res.json({ ok: true, count: entries.length, waitlist: entries });
+});
+
 /* Friendly 404 for API typos. */
 app.use('/api', (req, res) => res.status(404).json({ error: 'Unknown API endpoint.' }));
 
@@ -109,6 +230,9 @@ app.use('/api', (err, req, res, next) => {
   console.error('[vike] api error:', err.message);
   res.status(err.status || 400).json({ error: 'Bad request — expected JSON.' });
 });
+
+
+
 
 app.listen(PORT, () => {
   const info = providerInfo();

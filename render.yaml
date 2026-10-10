@@ -1,0 +1,20 @@
+# Render blueprint for vike-v1.
+# Deploys from GitHub (autoDeploy on main). Paid Starter plan because this
+# service hosts the Stripe webhook endpoint (per the build brief: paid
+# instances for anything with webhooks).
+services:
+  - type: web
+    name: vike-v1
+    env: node
+    plan: starter
+    buildCommand: npm install --omit=dev
+    startCommand: node server.js
+    autoDeploy: true
+    healthCheckPath: /healthz
+    envVars:
+      - key: NODE_VERSION
+        value: "24"
+      - key: LLM_PROVIDER
+        value: mock
+      # Secrets (Stripe keys, webhook secret, analytics token) are set in the
+      # Render dashboard's Environment page — never in this file.

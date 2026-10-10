@@ -1,0 +1,250 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<meta name="theme-color" content="#0a0a0c">
+<title>Elena's Week — One Woman, Four Guardians</title>
+<style>
+  :root{
+    --ink:#f5f2ec;
+    --ink-dim:rgba(245,242,236,.72);
+    --vicky-bg:#0a1628; --vicky-ac:#22d3ee;
+    --audrey-bg:#0b0a08; --audrey-ac:#d4af7a;
+    --bronson-bg:#0d1f16; --bronson-ac:#b08d57;
+    --vivian-bg:#1e0f1e; --vivian-ac:#d4af7a;
+  }
+  *{box-sizing:border-box;margin:0;padding:0}
+  html{scroll-behavior:smooth}
+  body{background:#0a0a0c;color:var(--ink);
+    font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Inter,Helvetica,Arial,sans-serif;
+    line-height:1.75;-webkit-font-smoothing:antialiased}
+  .serif{font-family:Georgia,"Times New Roman",serif}
+
+  /* ---- chapter thread ---- */
+  .thread{position:fixed;top:0;left:0;right:0;z-index:50;
+    display:flex;justify-content:center;gap:.4em;
+    padding:.65em .5em calc(.65em + env(safe-area-inset-top,0px));
+    background:rgba(8,8,10,.82);backdrop-filter:blur(10px);
+    border-bottom:1px solid rgba(255,255,255,.08);
+    font-size:.72em;letter-spacing:.18em;text-transform:uppercase}
+  .thread span{color:rgba(245,242,236,.38);padding:.2em .55em;border-radius:99px;
+    border:1px solid transparent;transition:all .4s;white-space:nowrap}
+  .thread span.on{color:var(--ink);border-color:currentColor}
+
+  /* ---- beats ---- */
+  .beat{min-height:100svh;display:flex;align-items:center;justify-content:center;
+    padding:5.5em 1.4em 4em;position:relative}
+  .beat-inner{max-width:640px;width:100%}
+  .eyebrow{font-size:.74em;letter-spacing:.22em;text-transform:uppercase;
+    color:var(--ink-dim);margin-bottom:1.2em}
+  .beat h1{font-size:clamp(1.9em,6.5vw,2.9em);line-height:1.25;font-weight:700;
+    margin-bottom:.7em}
+  .beat h2{font-size:clamp(1.5em,5.5vw,2.1em);line-height:1.3;font-weight:700;
+    margin-bottom:.6em}
+  .beat p{margin-bottom:1.1em;font-size:1.04em;color:var(--ink-dim)}
+  .beat p strong{color:var(--ink)}
+  .beat em{color:var(--ink)}
+
+  .chat{border:1px solid rgba(255,255,255,.14);border-radius:14px;
+    padding:1.1em 1.2em;margin:1.4em 0;background:rgba(255,255,255,.04);
+    font-size:1.02em}
+  .chat .who{font-size:.72em;letter-spacing:.2em;text-transform:uppercase;
+    color:var(--ink-dim);display:block;margin-bottom:.5em}
+
+  .handoff{font-size:clamp(1.25em,4.8vw,1.7em);line-height:1.45;font-weight:600;
+    margin:1.6em 0;padding-left:1em;border-left:3px solid currentColor}
+  .handoff .by{display:block;font-size:.55em;letter-spacing:.2em;
+    text-transform:uppercase;opacity:.65;margin-bottom:.5em;font-weight:400}
+
+  ul.plan{list-style:none;margin:1.2em 0}
+  ul.plan li{margin-bottom:1em;padding-left:1.4em;position:relative;color:var(--ink-dim)}
+  ul.plan li::before{content:"—";position:absolute;left:0;color:currentColor}
+  ul.plan li strong{color:var(--ink)}
+
+  .btn{display:inline-block;margin-top:1.6em;padding:.95em 2em;border-radius:999px;
+    text-decoration:none;font-weight:700;font-size:1em;letter-spacing:.02em;
+    transition:transform .15s}
+  .btn:active{transform:scale(.97)}
+
+  /* persona skins */
+  #arrival{background:radial-gradient(120% 90% at 50% 10%,#14141c 0%,#0a0a0c 60%)}
+  #arrival .scroll-cue{margin-top:2.5em;font-size:.8em;letter-spacing:.25em;
+    text-transform:uppercase;color:var(--ink-dim);animation:bob 2.2s ease-in-out infinite}
+  @keyframes bob{0%,100%{transform:translateY(0);opacity:.6}50%{transform:translateY(8px);opacity:1}}
+
+  #vicky{background:linear-gradient(180deg,#0a1628,#0a1628 70%,#0b1a30);color:#eaf6fb}
+  #vicky .handoff{color:var(--vicky-ac)}
+  #vicky .btn{background:var(--vicky-ac);color:#06202a}
+  #vicky .chat{border-color:rgba(34,211,238,.35)}
+
+  #audrey{background:linear-gradient(180deg,#0b0a08,#0b0a08 70%,#100d09)}
+  #audrey .handoff{color:var(--audrey-ac)}
+  #audrey .btn{background:var(--audrey-ac);color:#1a1408}
+
+  #bronson{background:linear-gradient(180deg,#0d1f16,#0d1f16 70%,#0f241a)}
+  #bronson .handoff{color:var(--bronson-ac)}
+  #bronson .btn{background:var(--bronson-ac);color:#101a0c}
+  #bronson .fine{font-size:.85em;opacity:.7}
+
+  #vivian{background:linear-gradient(180deg,#1e0f1e,#1e0f1e 70%,#251226)}
+  #vivian .handoff{color:var(--vivian-ac)}
+  #vivian .btn{background:var(--vivian-ac);color:#1e0f1e}
+
+  #reveal{background:
+      radial-gradient(90% 60% at 20% 20%,rgba(34,211,238,.14),transparent 60%),
+      radial-gradient(90% 60% at 80% 30%,rgba(212,175,122,.14),transparent 60%),
+      radial-gradient(90% 60% at 50% 90%,rgba(176,141,87,.12),transparent 60%),
+      #0a0a0c;text-align:center}
+  #reveal .beat-inner{max-width:600px}
+  #reveal h2{font-size:clamp(1.7em,6vw,2.5em)}
+  .doors{display:flex;flex-direction:column;gap:1em;margin-top:2.2em}
+  .door{border:1px solid rgba(255,255,255,.2);border-radius:16px;padding:1.4em;
+    text-decoration:none;color:var(--ink);transition:border-color .2s}
+  .door:hover{border-color:var(--audrey-ac)}
+  .door strong{display:block;font-size:1.15em;margin-bottom:.25em}
+  .door small{color:var(--ink-dim)}
+  .honest{margin-top:3em;font-size:.82em;color:rgba(245,242,236,.45);font-style:italic}
+
+  /* reveal on scroll */
+  .rv{opacity:0;transform:translateY(26px);transition:opacity .8s ease,transform .8s ease}
+  .rv.in{opacity:1;transform:none}
+  @media (prefers-reduced-motion:reduce){.rv{opacity:1;transform:none;transition:none}}
+</style>
+</head>
+<body>
+
+<nav class="thread" aria-label="Days">
+  <span data-for="arrival">Start</span><span data-for="vicky">Sun</span><span data-for="audrey">Wed–Thu</span><span data-for="bronson">Thu</span><span data-for="vivian">Fri</span><span data-for="reveal">Beyond</span>
+</nav>
+
+<!-- ============ BEAT 1 — ARRIVAL ============ -->
+<section class="beat" id="arrival">
+  <div class="beat-inner rv">
+    <p class="eyebrow">A true story, told once — about a woman who isn't real</p>
+    <h1>Eighteen years married.<br>Now it's just you —<br>and a phone full of strangers.</h1>
+    <p>You're not broken. You're rusty. <em>And rust comes off.</em></p>
+    <p><strong>Walk with Elena through one week.</strong></p>
+    <p class="scroll-cue">Scroll ↓</p>
+  </div>
+</section>
+
+<!-- ============ BEAT 2 — VICKY ============ -->
+<section class="beat" id="vicky">
+  <div class="beat-inner rv">
+    <p class="eyebrow">Sunday night · V.I.K.e™</p>
+    <h2>A text from Mark.<br>Third date Thursday.</h2>
+    <div class="chat">
+      <span class="who">Mark · 9:42 PM</span>
+      "Hey beautiful 😊 what are you up to tonight? Who are you with? Just want to make sure you're safe."
+    </div>
+    <p><strong>Vicky reads it plain:</strong></p>
+    <div class="chat">
+      <span class="who">Vicky</span>
+      That's not caring. That's a check-in wearing caring's clothes.<br><br>
+      Ten minutes after you left the house, he needs your coordinates to feel okay? A secure man doesn't. Watch whether the questions keep coming — one text is a moment, <em>a pattern is information.</em> Trust the pattern.
+    </div>
+    <div class="handoff"><span class="by">Vicky hands off</span>Knowing is step one. Step two is having a plan for the week. Let me hand you to Audrey — she'll sort the week so you walk into Thursday steady.</div>
+    <a class="btn" href="/">Screen your own texts with Vicky →</a>
+  </div>
+</section>
+
+<!-- ============ BEAT 3 — AUDREY ============ -->
+<section class="beat serif" id="audrey">
+  <div class="beat-inner rv">
+    <p class="eyebrow">Wednesday – Thursday · Audrey™</p>
+    <h2>Audrey builds Elena's week.</h2>
+    <p>Calm. Organized. Nothing loud.</p>
+    <ul class="plan">
+      <li><strong>Wednesday, 10 AM</strong> — divorce-mediation call. Audrey lays out: three things to have in front of you, one line to use if it gets heated, and a hard stop at 11 so it doesn't eat the day.</li>
+      <li><strong>Thursday, 7 PM</strong> — dinner with Mark. Vicky's notes go with you — not as fear, as preparation. Audrey sets the exit plan before the appetizers: your own car, a friend who knows where you are, a reason to leave that needs no excuse.</li>
+      <li><strong>Friday</strong> — nothing. Deliberately. Breathing room is a strategy, not laziness.</li>
+    </ul>
+    <div class="handoff"><span class="by">Audrey hands off</span>The week is handled. But I noticed something in what you told Vicky — you're not sleeping. That's not a scheduling problem. That's a body problem. Bronson should hear about this.</div>
+    <a class="btn" href="https://audrey-v1.onrender.com" target="_blank" rel="noopener">Put Audrey on your week →</a>
+  </div>
+</section>
+
+<!-- ============ BEAT 4 — BRONSON ============ -->
+<section class="beat serif" id="bronson">
+  <div class="beat-inner rv">
+    <p class="eyebrow">Thursday · BRONSON™</p>
+    <h2>The body keeps score.</h2>
+    <p>She's not sleeping. Stomach in knots every time Thursday comes to mind.</p>
+    <p><strong>Bronson translates — measured, on her side, never diagnosing:</strong></p>
+    <div class="chat">
+      <span class="who">Bronson</span>
+      <strong>What you're feeling:</strong> knotted stomach most afternoons, waking at 3 AM, breathing shallow when you think about Thursday.<br><br>
+      <strong>What it may mean:</strong> your nervous system is doing its job. Everything is new, so it's staying alert. That doesn't mean something's wrong with you — it means your body is keeping score while your mind catches up.<br><br>
+      <strong>What to ask your doctor:</strong> "I've had disrupted sleep and stomach tension for about three weeks during a major life transition — at what point should we look at this more closely?"
+    </div>
+    <p class="fine">Only a clinician who examines you can diagnose. He translates; they decide.</p>
+    <div class="handoff"><span class="by">Bronson hands off</span>Your body is carrying the week. Now — Vivian wants to talk about what comes <em>after</em> the week.</div>
+    <a class="btn" href="https://bronson-v1.onrender.com" target="_blank" rel="noopener">Translate your symptoms with BRONSON™ →</a>
+  </div>
+</section>
+
+<!-- ============ BEAT 5 — VIVIAN ============ -->
+<section class="beat" id="vivian">
+  <div class="beat-inner rv">
+    <p class="eyebrow">Friday · VIVIAN™</p>
+    <h2>The horizon.</h2>
+    <div class="chat">
+      <span class="who">Vivian</span>
+      You're not "starting over." Starting over implies you lost something.<br><br>
+      You're starting <em>from</em>. From eighteen years of knowing exactly who you are — and exactly what you won't tolerate again. Thursday isn't a test you can fail. It's data. And the woman collecting it is just getting started.<br><br>
+      This week isn't the story. It's the first chapter of the second act.
+    </div>
+    <div class="handoff"><span class="by">Vivian hands off — to the platform itself</span>And you're not walking into it alone.</div>
+    <a class="btn" href="https://vivian-v1.onrender.com" target="_blank" rel="noopener">Map your second act with VIVIAN™ →</a>
+  </div>
+</section>
+
+<!-- ============ BEAT 6 — REVEAL ============ -->
+<section class="beat" id="reveal">
+  <div class="beat-inner rv">
+    <p class="eyebrow">Beyond · The Platform</p>
+    <h2>That was one week.<br>Four guardians. One platform.</h2>
+    <p><strong>V.I.K.e™</strong> watches your back. <strong>Audrey</strong> runs your life. <strong>BRONSON™</strong> reads your body. <strong>VIVIAN™</strong> aims you forward.</p>
+    <p>Not four apps. <em>One circle around you.</em></p>
+    <p>Everything you just saw is live. This is what the platform does: it stands between you and harm — in every part of life.</p>
+    <div class="doors">
+      <a class="door" href="/">
+        <strong>Start with Vicky →</strong>
+        <small>The front door. Free to try.</small>
+      </a>
+      <a class="door" href="mailto:seandonelon.apps@gmail.com?subject=Platform%20inquiry">
+        <strong>Talk to us →</strong>
+        <small>Acquisition and licensing inquiries.</small>
+      </a>
+    </div>
+    <p class="honest">Elena's story is illustrative — the guardians are real.</p>
+    <p class="honest" style="margin-top:1em">Powered by Arbor · The Arbor Group · She owns her data.</p>
+  </div>
+</section>
+
+<script>
+(function(){
+  var beats = document.querySelectorAll('.beat');
+  var chips = document.querySelectorAll('.thread span');
+  function setActive(id){
+    chips.forEach(function(c){ c.classList.toggle('on', c.dataset.for === id); });
+  }
+  if('IntersectionObserver' in window){
+    var io = new IntersectionObserver(function(es){
+      es.forEach(function(e){
+        if(e.isIntersecting){
+          e.target.querySelector('.rv').classList.add('in');
+          setActive(e.target.id);
+        }
+      });
+    },{threshold:.35});
+    beats.forEach(function(b){ io.observe(b); });
+  } else {
+    document.querySelectorAll('.rv').forEach(function(el){ el.classList.add('in'); });
+  }
+  setActive('arrival');
+})();
+</script>
+</body>
+</html>

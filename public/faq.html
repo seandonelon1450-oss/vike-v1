@@ -1,0 +1,183 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="light">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="theme-color" content="#FAF8F4">
+<meta name="description" content="V.I.K.e FAQ — plain answers, including whether Arbor uses AI.">
+<title>FAQ — V.I.K.e™</title>
+<link rel="stylesheet" href="/styles.css">
+<link rel="icon" type="image/png" href="/icons/icon-192.png">
+<script>
+(function () {
+  try {
+    var t = localStorage.getItem('vike_theme');
+    if (!t) t = (window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches) ? 'dark' : 'light';
+    document.documentElement.setAttribute('data-theme', t);
+  } catch (e) { document.documentElement.setAttribute('data-theme', 'light'); }
+})();
+</script>
+</head>
+<body>
+<a class="skip" href="#main">Skip to content</a>
+<header class="site-header">
+  <a class="brand" href="/" aria-label="V.I.K.e home">
+    <svg class="arch" viewBox="0 0 48 48" aria-hidden="true">
+      <g fill="none" stroke="currentColor" stroke-width="4" stroke-linecap="round">
+        <path d="M8 42 V24 A16 16 0 0 1 40 24 V42"/>
+        <path d="M17 42 V27 A7 7 0 0 1 31 27 V42"/>
+      </g>
+    </svg>
+    <span class="wordmark">V.I.K.e<sup>™</sup></span>
+  </a>
+  <nav class="site-nav" aria-label="Site">
+    <a href="/about.html">About</a>
+    <a href="/data.html">Your data</a>
+    <a href="/faq.html" aria-current="page">FAQ</a>
+    <a href="/contact.html">Contact</a>
+  </nav>
+  <div class="header-right">
+    <span class="powered-badge" aria-label="Powered by Arbor">
+      <svg class="arch" viewBox="0 0 48 48" aria-hidden="true">
+        <g fill="none" stroke="currentColor" stroke-width="4" stroke-linecap="round">
+          <path d="M8 42 V24 A16 16 0 0 1 40 24 V42"/>
+          <path d="M17 42 V27 A7 7 0 0 1 31 27 V42"/>
+        </g>
+      </svg>
+      <span class="pb-powered">powered by</span><span class="pb-arbor">Arbor</span>
+    </span>
+    <button id="themeToggle" class="theme-toggle" aria-pressed="false" aria-label="Toggle dark mode">
+      <span aria-hidden="true">◐</span><span class="theme-label">Theme</span>
+    </button>
+  </div>
+</header>
+
+<main id="main" class="container">
+  <div class="hero reading">
+    <p class="eyebrow">Plain answers</p>
+    <h1 class="display">Questions.</h1>
+  </div>
+
+  <div class="reading">
+    <details class="faq-item" open>
+      <summary>Does Arbor use AI?</summary>
+      <div class="faq-body">
+        <p>Yes — plainly. V.I.K.e uses AI to read message patterns and draft replies you can review. Right now she runs in <strong>demo mode</strong>, which is pattern matching, not AI — and the app says so on screen. When real AI analysis is switched on, the status badge changes to say "AI analysis," and the provider is named.</p>
+        <p>What's not AI: your evidence file (a simple log in your browser), your invite codes, and the tallies we keep (plain counts, no learning). We never train any model on your data — not ours, not anyone's.</p>
+      </div>
+    </details>
+
+    <details class="faq-item">
+      <summary>What does V.I.K.e actually do?</summary>
+      <div class="faq-body">
+        <p>You paste messages from a match — or anyone. She reads them for patterns: love-bombing, future-faking, off-app pressure, story inconsistencies, control moves. Then she gives you a plain five-line read and drafts replies you can copy <em>if you choose to</em>. She never sends anything herself.</p>
+      </div>
+    </details>
+
+    <details class="faq-item">
+      <summary>Is V.I.K.e a person?</summary>
+      <div class="faq-body">
+        <p>No. Vicky is clearly-disclosed software — a consistent voice for a screening tool, not a human. There <em>is</em> a real human behind the product: write to <a href="mailto:seandonelon.apps@gmail.com">seandonelon.apps@gmail.com</a> and a person answers.</p>
+      </div>
+    </details>
+
+    <details class="faq-item">
+      <summary>Is this a crisis service?</summary>
+      <div class="faq-body">
+        <p>No. V.I.K.e is a screening tool — she cannot intervene, and she never contacts anyone. If you or someone you love is in danger: call 911. For free, confidential help any time: the National Domestic Violence Hotline at <a href="tel:18007997233">1-800-799-7233</a> (or text START to 88788), or the Louisiana statewide hotline at <a href="tel:18884111333">1-888-411-1333</a>.</p>
+      </div>
+    </details>
+
+    <details class="faq-item">
+      <summary>Where does my evidence file live?</summary>
+      <div class="faq-body">
+        <p>Only in this browser, on this device. Our server never sees it, can't back it up, and can't recover it. Export a copy from the app or the <a href="/data.html">Your data</a> page; delete it any time in one tap.</p>
+      </div>
+    </details>
+
+    <details class="faq-item">
+      <summary>Do you sell my data or train AI on it?</summary>
+      <div class="faq-body">
+        <p>Neither. Never sold — not to advertisers, data brokers, providers, or partners. Never used to train models — not ours, not anyone's. The full 10-point promise is on the <a href="/data.html">Your data</a> page, word for word.</p>
+      </div>
+    </details>
+
+    <details class="faq-item">
+      <summary>Why does the button say "Request an invite" instead of letting me pay?</summary>
+      <div class="faq-body">
+        <p>The founding circle — 100 seats at $39/month, locked for life — opens after our payment system passes its full test (webhook wired, one real test charge, one refund). Until then, we don't take cards. Leave your email and we'll write when your seat is ready.</p>
+      </div>
+    </details>
+
+    <details class="faq-item">
+      <summary>What does V.I.K.e stand for?</summary>
+      <div class="faq-body">
+        <p>That's on the <a href="/about.html">About page</a> — we keep the full name there, and keep the headlines about the outcome: get home safe.</p>
+      </div>
+    </details>
+  </div>
+</main>
+
+<footer class="site-footer">
+  <div class="foot-grid">
+    <div>
+      <div class="foot-brand">
+        <svg class="arch" viewBox="0 0 48 48" aria-hidden="true">
+          <g fill="none" stroke="currentColor" stroke-width="4" stroke-linecap="round">
+            <path d="M8 42 V24 A16 16 0 0 1 40 24 V42"/>
+            <path d="M17 42 V27 A7 7 0 0 1 31 27 V42"/>
+          </g>
+        </svg>
+        <span class="wordmark">V.I.K.e<sup>™</sup></span>
+      </div>
+      <p>Get home safe.<br>A private safety read for the dating world.</p>
+    </div>
+    <div>
+      <h4>Product</h4>
+      <ul>
+        <li><a href="/#screen-analyze">Screen a conversation</a></li>
+        <li><a href="/#screen-evidence">Your file</a></li>
+        <li><a href="/#screen-circle">Your circle</a></li>
+        <li><a href="/#invite">Request an invite</a></li>
+      </ul>
+    </div>
+    <div>
+      <h4>Trust</h4>
+      <ul>
+        <li><a href="/about.html">About V.I.K.e</a></li>
+        <li><a href="/data.html">Your data</a></li>
+        <li><a href="/faq.html">FAQ</a></li>
+        <li><a href="/contact.html">Contact</a></li>
+      </ul>
+    </div>
+    <div>
+      <h4>Talk to a person</h4>
+      <p>A real person answers:<br><a href="mailto:seandonelon.apps@gmail.com">seandonelon.apps@gmail.com</a></p>
+      <p>In danger now? Call 911.</p>
+    </div>
+  </div>
+  <div class="foot-bottom">
+    <span class="powered-badge" aria-label="Powered by Arbor">
+      <svg class="arch" viewBox="0 0 48 48" aria-hidden="true">
+        <g fill="none" stroke="currentColor" stroke-width="4" stroke-linecap="round">
+          <path d="M8 42 V24 A16 16 0 0 1 40 24 V42"/>
+          <path d="M17 42 V27 A7 7 0 0 1 31 27 V42"/>
+        </g>
+      </svg>
+      <span class="pb-powered">powered by</span><span class="pb-arbor">Arbor</span>
+    </span>
+    <p class="foot-line">Powered by Arbor · The Arbor Group · She owns her data.</p>
+  </div>
+</footer>
+<script src="/js/analytics.js"></script>
+<script>
+document.getElementById('themeToggle').addEventListener('click', function () {
+  var cur = document.documentElement.getAttribute('data-theme') || 'light';
+  var next = cur === 'dark' ? 'light' : 'dark';
+  document.documentElement.setAttribute('data-theme', next);
+  this.setAttribute('aria-pressed', next === 'dark' ? 'true' : 'false');
+  try { localStorage.setItem('vike_theme', next); } catch (e) {}
+});
+</script>
+</body>
+</html>

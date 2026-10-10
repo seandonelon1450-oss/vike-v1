@@ -18,13 +18,16 @@ app and proxies LLM calls so API keys never touch the browser. **No database**
 — the evidence file lives in the user's browser (localStorage). That's both
 $0 and the honest privacy story.
 
-**Design law:** V.I.K.e must never feel like software. The frontend carries the
-frozen prototype's cinematic guardian identity — near-black depths, cool
-white, cyan edge-light, her face present on every screen, her voice in the
-copy ("Show me what he sent", "What I would say", "Trust, plainly"). If a
-screen starts feeling like a dashboard instead of her presence, simplify or
-remove it. All styling lives in `public/styles.css`; `public/js/app.js` emits
-no inline styles.
+**Design law:** V.I.K.e follows the Arbor Group design system (§10 of the
+build brief): paper #FAF8F4, ink #1C1A17, Fraunces headlines + Inter body
+(self-hosted WOFF2 in `public/fonts/`), garnet accent #9B2F4E (~5% of screen),
+dark theme via OS setting + header toggle. Hero is the outcome —
+"Get home safe." — never AI, no sparkles, no chat bubbles. First screen is
+finished work (a demo five-line read + drafted replies + date plan), never a
+blank box. The "powered by Arbor" badge is in the footer on every page (and
+the header at ≥1200px). The 10-point data charter lives word-for-word on
+`/data.html` with working one-tap Export and Delete. All styling lives in
+`public/styles.css`; `public/js/app.js` emits no inline styles.
 
 ---
 

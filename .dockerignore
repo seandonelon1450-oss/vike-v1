@@ -1,0 +1,5 @@
+node_modules
+.git
+shots
+*.log
+.env

@@ -1,0 +1,198 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="light">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="theme-color" content="#FAF8F4">
+<meta name="description" content="Welcome to the V.I.K.e founding circle.">
+<title>Welcome to the Founding Circle — V.I.K.e</title>
+<link rel="stylesheet" href="/styles.css">
+<link rel="icon" type="image/png" href="/icons/icon-192.png">
+<script>
+(function () {
+  try {
+    var t = localStorage.getItem('vike_theme');
+    if (!t) t = (window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches) ? 'dark' : 'light';
+    document.documentElement.setAttribute('data-theme', t);
+  } catch (e) { document.documentElement.setAttribute('data-theme', 'light'); }
+})();
+</script>
+<style>
+.welcome-hero { text-align: center; padding: 96px 0 32px; }
+.founder-card {
+  background: var(--night); color: #F3EFE8; border-radius: 24px;
+  padding: 48px 32px; margin: 32px 0; text-align: center;
+}
+.founder-card .founder-kicker {
+  letter-spacing: .35em; font-size: 13px; font-weight: 600; color: var(--accent-on-dark);
+}
+.founder-card .founder-no { font-family: 'Fraunces', serif; font-size: 34px; margin: 12px 0; letter-spacing: .1em; }
+.founder-card p { color: #b3aa9c; margin: 0; }
+</style>
+</head>
+<body>
+<a class="skip" href="#main">Skip to content</a>
+<header class="site-header">
+  <a class="brand" href="/" aria-label="V.I.K.e home">
+    <svg class="arch" viewBox="0 0 48 48" aria-hidden="true">
+      <g fill="none" stroke="currentColor" stroke-width="4" stroke-linecap="round">
+        <path d="M8 42 V24 A16 16 0 0 1 40 24 V42"/>
+        <path d="M17 42 V27 A7 7 0 0 1 31 27 V42"/>
+      </g>
+    </svg>
+    <span class="wordmark">V.I.K.e<sup>™</sup></span>
+  </a>
+  <nav class="site-nav" aria-label="Site">
+    <a href="/about.html">About</a>
+    <a href="/data.html">Your data</a>
+    <a href="/faq.html">FAQ</a>
+    <a href="/contact.html">Contact</a>
+  </nav>
+  <div class="header-right">
+    <span class="powered-badge" aria-label="Powered by Arbor">
+      <svg class="arch" viewBox="0 0 48 48" aria-hidden="true">
+        <g fill="none" stroke="currentColor" stroke-width="4" stroke-linecap="round">
+          <path d="M8 42 V24 A16 16 0 0 1 40 24 V42"/>
+          <path d="M17 42 V27 A7 7 0 0 1 31 27 V42"/>
+        </g>
+      </svg>
+      <span class="pb-powered">powered by</span><span class="pb-arbor">Arbor</span>
+    </span>
+    <button id="themeToggle" class="theme-toggle" aria-pressed="false" aria-label="Toggle dark mode">
+      <span aria-hidden="true">◐</span><span class="theme-label">Theme</span>
+    </button>
+  </div>
+</header>
+
+<main id="main" class="container">
+  <div class="reading">
+    <div class="welcome-hero">
+      <p class="eyebrow">Founding circle</p>
+      <h1 class="display">You're in, founder.</h1>
+      <p class="lede">Welcome to the founding circle. Your $39/month rate is locked for life — it will never go up as long as your membership stays active.</p>
+    </div>
+
+    <div class="founder-card">
+      <div class="founder-kicker">FOUNDING MEMBER</div>
+      <div class="founder-no">No. <span id="memberMark">—</span></div>
+      <p>V.I.K.e Founding Circle · 100 women · not 101</p>
+    </div>
+
+    <div class="card">
+      <h2>What happens now</h2>
+      <ul class="plain">
+        <li><strong>This device remembers you.</strong> Your founding status is saved in this browser — no account, no password.</li>
+        <li><strong>Your receipt</strong> is in your email, from Stripe.</li>
+        <li><strong>Managing your membership:</strong> Stripe's customer portal handles receipts, card updates, and cancellation — a link is in your receipt email.</li>
+      </ul>
+    </div>
+
+    <p class="lede" style="text-align:center">You just helped fund the thing that stands between women and harm. That's not a subscription. That's a stand.</p>
+
+    <div class="card">
+      <h2>You're in her beta too</h2>
+      <p>V.I.K.e watches your world. <strong>Audrey</strong> runs it — a private chief-of-staff for professional women: morning briefings, honest counsel, your circle kept close.</p>
+      <p>As one of the first 12 founders, you're automatically in Audrey's private beta. Watch your inbox.</p>
+      <p><a href="https://audrey-v1.onrender.com/">Meet Audrey &rarr;</a></p>
+    </div>
+
+    <div class="card" id="inviteCard" hidden>
+      <h2>Bring her with you</h2>
+      <p>Founders don't come alone. Share this with <strong>one woman</strong> you'd want protected — when she arrives, she'll know a founder sent her.</p>
+      <p><input id="inviteLink" readonly style="width:100%" onclick="this.select()"></p>
+      <p><button id="copyInvite" class="btn-primary" style="margin-top:12px">Copy my invite link</button></p>
+      <p class="hint" style="margin-top:16px">No accounts, no tracking of who you send it to. The link just carries your founder's mark.</p>
+    </div>
+
+    <p style="text-align:center;margin:48px 0"><a class="btn-primary" href="/">Meet Vicky &rarr;</a></p>
+
+    <p class="hint" style="text-align:center">Founder concierge — a real person answers: <a href="mailto:seandonelon.apps@gmail.com">seandonelon.apps@gmail.com</a></p>
+  </div>
+</main>
+
+<footer class="site-footer">
+  <div class="foot-grid">
+    <div>
+      <div class="foot-brand">
+        <svg class="arch" viewBox="0 0 48 48" aria-hidden="true">
+          <g fill="none" stroke="currentColor" stroke-width="4" stroke-linecap="round">
+            <path d="M8 42 V24 A16 16 0 0 1 40 24 V42"/>
+            <path d="M17 42 V27 A7 7 0 0 1 31 27 V42"/>
+          </g>
+        </svg>
+        <span class="wordmark">V.I.K.e<sup>™</sup></span>
+      </div>
+      <p>Get home safe.<br>A private safety read for the dating world.</p>
+    </div>
+    <div>
+      <h4>Product</h4>
+      <ul>
+        <li><a href="/#screen-analyze">Screen a conversation</a></li>
+        <li><a href="/#screen-evidence">Your file</a></li>
+        <li><a href="/#screen-circle">Your circle</a></li>
+        <li><a href="/#invite">Request an invite</a></li>
+      </ul>
+    </div>
+    <div>
+      <h4>Trust</h4>
+      <ul>
+        <li><a href="/about.html">About V.I.K.e</a></li>
+        <li><a href="/data.html">Your data</a></li>
+        <li><a href="/faq.html">FAQ</a></li>
+        <li><a href="/contact.html">Contact</a></li>
+      </ul>
+    </div>
+    <div>
+      <h4>Talk to a person</h4>
+      <p>A real person answers:<br><a href="mailto:seandonelon.apps@gmail.com">seandonelon.apps@gmail.com</a></p>
+      <p>In danger now? Call 911.</p>
+    </div>
+  </div>
+  <div class="foot-bottom">
+    <span class="powered-badge" aria-label="Powered by Arbor">
+      <svg class="arch" viewBox="0 0 48 48" aria-hidden="true">
+        <g fill="none" stroke="currentColor" stroke-width="4" stroke-linecap="round">
+          <path d="M8 42 V24 A16 16 0 0 1 40 24 V42"/>
+          <path d="M17 42 V27 A7 7 0 0 1 31 27 V42"/>
+        </g>
+      </svg>
+      <span class="pb-powered">powered by</span><span class="pb-arbor">Arbor</span>
+    </span>
+    <p class="foot-line">Powered by Arbor · The Arbor Group · She owns her data.</p>
+  </div>
+</footer>
+
+<script src="/js/analytics.js"></script>
+<script>
+try {
+  localStorage.setItem('vike_founding', JSON.stringify({ paid: true, ts: Date.now(), via: 'payment-link' }));
+  var code = null;
+  try { code = JSON.parse(localStorage.getItem('vike_invite_code') || 'null'); } catch (e) {}
+  if (!code) {
+    code = Math.random().toString(36).slice(2, 8).toUpperCase();
+    try { localStorage.setItem('vike_invite_code', JSON.stringify(code)); } catch (e) {}
+  }
+  var link = 'https://vike-v1-restore.onrender.com/?invite=' + code;
+  var mark = document.getElementById('memberMark');
+  if (mark) mark.textContent = code;
+  var card = document.getElementById('inviteCard');
+  var input = document.getElementById('inviteLink');
+  card.hidden = false; input.value = link;
+  document.getElementById('copyInvite').addEventListener('click', function () {
+    input.select();
+    function done() { this.textContent = 'Copied — send it to her'; }
+    if (navigator.clipboard && navigator.clipboard.writeText) {
+      navigator.clipboard.writeText(link).then(done.bind(this)).catch(function(){ document.execCommand('copy'); done(); });
+    } else { document.execCommand('copy'); done.call(this); }
+  });
+} catch (e) {}
+document.getElementById('themeToggle').addEventListener('click', function () {
+  var cur = document.documentElement.getAttribute('data-theme') || 'light';
+  var next = cur === 'dark' ? 'light' : 'dark';
+  document.documentElement.setAttribute('data-theme', next);
+  this.setAttribute('aria-pressed', next === 'dark' ? 'true' : 'false');
+  try { localStorage.setItem('vike_theme', next); } catch (e) {}
+});
+</script>
+</body>
+</html>

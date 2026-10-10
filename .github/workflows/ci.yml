@@ -1,0 +1,61 @@
+# .github/workflows/ci.yml
+# ------------------------------------------------------------------------------
+# V.I.K.e CI guardrails.
+# Runs on every push to main and every pull request.
+#
+# 1. Fails if the ephemeral-registry hostname appears anywhere in the repo
+#    (the hosting rule: never deploy from an ephemeral registry).
+# 2. Fails on customer-facing "aude" references (renamed to Arbor for Law).
+# 3. Boots the server and checks /healthz returns 200 {"ok":true}.
+#
+# NOTE: the literal ephemeral-registry hostname below appears ONLY in this
+# file — never in docs, reports, READMEs, code, or comments elsewhere.
+# ------------------------------------------------------------------------------
+
+name: CI
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+
+jobs:
+  guardrails:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Reject the ephemeral-registry hostname
+        run: |
+          if grep -rI --exclude-dir=.git --exclude-dir=node_modules --exclude-dir=.github "ttl.sh" .; then
+            echo "ERROR: the ephemeral-registry hostname is not allowed in this repo."
+            exit 1
+          fi
+          echo "No ephemeral-registry hostname found."
+
+      - name: Reject customer-facing AUDE references
+        run: |
+          if grep -rIi --exclude-dir=.git --exclude-dir=node_modules --exclude-dir=.github "aude" public/ server.js billing-server.js package.json render.yaml README.md 2>/dev/null; then
+            echo "ERROR: customer-facing AUDE reference found (renamed to Arbor for Law)."
+            exit 1
+          fi
+          echo "No customer-facing AUDE references."
+
+      - name: Boot the app and check /healthz
+        run: |
+          node --version
+          npm install --omit=dev --no-audit --no-fund
+          (node server.js &>/tmp/vike-ci.log & echo $! > /tmp/vike.pid)
+          for i in $(seq 1 30); do
+            if curl -sf http://localhost:3000/healthz | grep -q '"ok":true'; then
+              echo "healthz OK"
+              kill "$(cat /tmp/vike.pid)" || true
+              exit 0
+            fi
+            sleep 1
+          done
+          echo "ERROR: /healthz did not return 200 {\"ok\":true}"
+          cat /tmp/vike-ci.log
+          kill "$(cat /tmp/vike.pid)" || true
+          exit 1

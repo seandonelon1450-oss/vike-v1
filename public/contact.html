@@ -1,0 +1,141 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="light">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="theme-color" content="#FAF8F4">
+<meta name="description" content="Contact V.I.K.e — a real person answers.">
+<title>Contact — V.I.K.e™</title>
+<link rel="stylesheet" href="/styles.css">
+<link rel="icon" type="image/png" href="/icons/icon-192.png">
+<script>
+(function () {
+  try {
+    var t = localStorage.getItem('vike_theme');
+    if (!t) t = (window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches) ? 'dark' : 'light';
+    document.documentElement.setAttribute('data-theme', t);
+  } catch (e) { document.documentElement.setAttribute('data-theme', 'light'); }
+})();
+</script>
+<style>
+.contact-card { text-align: center; padding: 64px 32px; }
+.contact-card h1 { margin-bottom: 16px; }
+.contact-card p { color: var(--muted); max-width: 44ch; margin: 0 auto 8px; }
+.contact-email {
+  display: inline-block; margin-top: 24px; font-size: 18px; font-weight: 600;
+  color: var(--accent); text-decoration: none;
+  border: 1.5px solid var(--accent); border-radius: 10px; padding: 16px 28px;
+  word-break: break-all; min-height: 56px;
+}
+.contact-email:hover { background: var(--tint); }
+</style>
+</head>
+<body>
+<a class="skip" href="#main">Skip to content</a>
+<header class="site-header">
+  <a class="brand" href="/" aria-label="V.I.K.e home">
+    <svg class="arch" viewBox="0 0 48 48" aria-hidden="true">
+      <g fill="none" stroke="currentColor" stroke-width="4" stroke-linecap="round">
+        <path d="M8 42 V24 A16 16 0 0 1 40 24 V42"/>
+        <path d="M17 42 V27 A7 7 0 0 1 31 27 V42"/>
+      </g>
+    </svg>
+    <span class="wordmark">V.I.K.e<sup>™</sup></span>
+  </a>
+  <nav class="site-nav" aria-label="Site">
+    <a href="/about.html">About</a>
+    <a href="/data.html">Your data</a>
+    <a href="/faq.html">FAQ</a>
+    <a href="/contact.html" aria-current="page">Contact</a>
+  </nav>
+  <div class="header-right">
+    <span class="powered-badge" aria-label="Powered by Arbor">
+      <svg class="arch" viewBox="0 0 48 48" aria-hidden="true">
+        <g fill="none" stroke="currentColor" stroke-width="4" stroke-linecap="round">
+          <path d="M8 42 V24 A16 16 0 0 1 40 24 V42"/>
+          <path d="M17 42 V27 A7 7 0 0 1 31 27 V42"/>
+        </g>
+      </svg>
+      <span class="pb-powered">powered by</span><span class="pb-arbor">Arbor</span>
+    </span>
+    <button id="themeToggle" class="theme-toggle" aria-pressed="false" aria-label="Toggle dark mode">
+      <span aria-hidden="true">◐</span><span class="theme-label">Theme</span>
+    </button>
+  </div>
+</header>
+
+<main id="main" class="container">
+  <div class="reading">
+    <div class="card contact-card" data-reveal>
+      <p class="eyebrow">Talk to a person</p>
+      <h1>Contact</h1>
+      <p>For acquisition or licensing inquiries about V.I.K.e™, questions about your data, or anything else — a real person answers.</p>
+      <a class="contact-email" href="mailto:seandonelon.apps@gmail.com">seandonelon.apps@gmail.com</a>
+      <p class="hint" style="margin-top:24px"><a href="/">← Back to V.I.K.e</a></p>
+    </div>
+  </div>
+</main>
+
+<footer class="site-footer">
+  <div class="foot-grid">
+    <div>
+      <div class="foot-brand">
+        <svg class="arch" viewBox="0 0 48 48" aria-hidden="true">
+          <g fill="none" stroke="currentColor" stroke-width="4" stroke-linecap="round">
+            <path d="M8 42 V24 A16 16 0 0 1 40 24 V42"/>
+            <path d="M17 42 V27 A7 7 0 0 1 31 27 V42"/>
+          </g>
+        </svg>
+        <span class="wordmark">V.I.K.e<sup>™</sup></span>
+      </div>
+      <p>Get home safe.<br>A private safety read for the dating world.</p>
+    </div>
+    <div>
+      <h4>Product</h4>
+      <ul>
+        <li><a href="/#screen-analyze">Screen a conversation</a></li>
+        <li><a href="/#screen-evidence">Your file</a></li>
+        <li><a href="/#screen-circle">Your circle</a></li>
+        <li><a href="/#invite">Request an invite</a></li>
+      </ul>
+    </div>
+    <div>
+      <h4>Trust</h4>
+      <ul>
+        <li><a href="/about.html">About V.I.K.e</a></li>
+        <li><a href="/data.html">Your data</a></li>
+        <li><a href="/faq.html">FAQ</a></li>
+        <li><a href="/contact.html">Contact</a></li>
+      </ul>
+    </div>
+    <div>
+      <h4>Talk to a person</h4>
+      <p>A real person answers:<br><a href="mailto:seandonelon.apps@gmail.com">seandonelon.apps@gmail.com</a></p>
+      <p>In danger now? Call 911.</p>
+    </div>
+  </div>
+  <div class="foot-bottom">
+    <span class="powered-badge" aria-label="Powered by Arbor">
+      <svg class="arch" viewBox="0 0 48 48" aria-hidden="true">
+        <g fill="none" stroke="currentColor" stroke-width="4" stroke-linecap="round">
+          <path d="M8 42 V24 A16 16 0 0 1 40 24 V42"/>
+          <path d="M17 42 V27 A7 7 0 0 1 31 27 V42"/>
+        </g>
+      </svg>
+      <span class="pb-powered">powered by</span><span class="pb-arbor">Arbor</span>
+    </span>
+    <p class="foot-line">Powered by Arbor · The Arbor Group · She owns her data.</p>
+  </div>
+</footer>
+<script src="/js/analytics.js"></script>
+<script>
+document.getElementById('themeToggle').addEventListener('click', function () {
+  var cur = document.documentElement.getAttribute('data-theme') || 'light';
+  var next = cur === 'dark' ? 'light' : 'dark';
+  document.documentElement.setAttribute('data-theme', next);
+  this.setAttribute('aria-pressed', next === 'dark' ? 'true' : 'false');
+  try { localStorage.setItem('vike_theme', next); } catch (e) {}
+});
+</script>
+</body>
+</html>

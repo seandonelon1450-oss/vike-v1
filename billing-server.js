@@ -1,4 +1,6 @@
 'use strict';
+const path = require('path');
+const fs = require('fs');
 /* =====================================================================
  * V.I.K.e V1 — billing (server side).
  *
@@ -95,7 +97,36 @@ async function verifySession(sessionId) {
 }
 
 /* Stripe -> us: payment confirmations. Verifies the signature so random
- * callers can't fake a "paid" event. Stateless: acknowledged + logged. */
+ * callers can't fake a "paid" event. Persists each payer to the founders
+ * ledger (data/founders.jsonl) — ephemeral disk, same as nominations. */
+const FOUNDERS_FILE = path.join(__dirname, 'data', 'founders.jsonl');
+
+function recordFounder(session) {
+  const cd = session.customer_details || {};
+  const entry = {
+    ts: new Date().toISOString(),
+    email: cd.email || null,
+    name: cd.name || null,
+    amount_total: session.amount_total != null ? session.amount_total / 100 : null,
+    currency: (session.currency || 'usd').toUpperCase(),
+    session_id: session.id,
+    livemode: !!session.livemode,
+    mode: session.mode || null
+  };
+  try {
+    fs.appendFileSync(FOUNDERS_FILE, JSON.stringify(entry) + '\n');
+  } catch (e) { console.error('[vike] could not write founders ledger:', e.message); }
+  return entry;
+}
+
+function listFounders() {
+  try {
+    return fs.readFileSync(FOUNDERS_FILE, 'utf8').split('\n').filter(Boolean)
+      .map((ln) => { try { return JSON.parse(ln); } catch (e) { return null; } })
+      .filter(Boolean);
+  } catch (e) { return []; }
+}
+
 function handleWebhook(req, res) {
   const secret = process.env.STRIPE_WEBHOOK_SECRET || '';
   if (!secret) {
@@ -104,7 +135,8 @@ function handleWebhook(req, res) {
   }
   let event;
   try {
-    const stripe = stripeClient();
+    // Signature verification needs no API key — construct without one.
+    const stripe = require('stripe')();
     event = stripe.webhooks.constructEvent(req.body, req.headers['stripe-signature'], secret);
   } catch (err) {
     console.error('[vike] webhook signature invalid:', err.message);
@@ -112,9 +144,10 @@ function handleWebhook(req, res) {
   }
   if (event.type === 'checkout.session.completed') {
     const s = event.data.object;
-    console.log(`[vike] founding membership paid: session=${s.id} email=${s.customer_details && s.customer_details.email} livemode=${s.livemode}`);
+    const f = recordFounder(s);
+    console.log(`[vike] FOUNDER #${listFounders().length} paid: email=${f.email} amount=${f.amount_total} ${f.currency} livemode=${f.livemode}`);
   }
   res.json({ received: true });
 }
 
-module.exports = { status, createCheckoutSession, verifySession, handleWebhook };
+module.exports = { status, createCheckoutSession, verifySession, handleWebhook, listFounders };

@@ -15,7 +15,7 @@
  * =================================================================== */
 const {
   SEVERITY_ORDER, SEVERITY_LABELS, SEVERITY_DESCRIPTIONS,
-  CUE_DEFS, POSTURES
+  CUE_DEFS, POSTURES, PERSONALITY_LINES
 } = require('../analysis/rubric');
 
 const PROVIDER_ID = 'mock-demo';
@@ -63,6 +63,12 @@ const PATTERNS = [
   [2, 'pressure', /\b(pick up|pickup) (the phone|your phone)\b|\bwhy aren'?t you (answering|responding|picking up)\b/i, 'Pursuit after non-response'],
   [2, 'pressure', /\bif you (really )?loved me\b/i, 'Affection made conditional on compliance'],
   [2, 'pressure', /\byou (never|don'?t) listen\b/i, 'Compliance framing — obedience cast as "listening"'],
+  // ---- personality-lines support: control tactics (monitoring / isolation) ----
+  [2, 'pressure', /\bwho were you with\b/i, 'Monitoring — "who were you with?" is a check-in that isn\'t casual'],
+  [2, 'pressure', /\bwhere were you\b/i, 'Location check-in — tracking framed as caring'],
+  [2, 'pressure', /\bdon'?t (talk to|see|hang ?out with|text|call)\b/i, 'Isolation move — cutting your people off, one name at a time'],
+  [2, 'pressure', /\blet me see your phone\b|\bshow me your (phone|messages|dms|texts)\b/i, 'Surveillance framed as trust — inspection is not intimacy'],
+  [2, 'pressure', /\bi (don'?t|won'?t) let you\b/i, 'Permission framing — he decides what you get to do'],
   // ---- nuisance (1): manipulation patterns that are lower-grade alone ----
   [1, 'love-bombing', /\b(never|haven'?t) felt this way\b|\bsoulmate\b|\bmeant to be\b/i, 'Intense premature intimacy language'],
   [1, 'love-bombing', /\bcan'?t live without you\b/i, 'Dependency framed as devotion'],
@@ -189,6 +195,68 @@ function recommendPosture(severity, cueTypes) {
   };
 }
 
+/* ---- Empathy line: does he track HER feelings, or only his own? ----
+ * Behavioral heuristics only: self/other reference ratio, question
+ * count, and explicit "boomerang" pivots. No diagnosis, no labels. */
+function empathyObservations(t) {
+  const obs = [];
+  const iWords = (t.match(/\b(i|me|my|mine|myself)\b/gi) || []).length;
+  const youWords = (t.match(/\b(you|your|yours|yourself|u)\b/gi) || []).length;
+  if (iWords >= 6 && iWords >= 3 * Math.max(youWords, 1)) {
+    obs.push({
+      quote: '',
+      note: `Talks about himself far more than you (${iWords} self-references vs ${youWords} about you) — the spotlight never moves`
+    });
+  }
+  const questions = (t.match(/\?/g) || []).length;
+  if (questions === 0 && t.length > 150) {
+    obs.push({ quote: '', note: 'Asks you nothing — not one question in the whole message' });
+  }
+  const boom = t.match(/enough about (you|that|this)[^.!?…]{0,60}/i);
+  if (boom) {
+    obs.push({ quote: `\u201c${boom[0].trim()}\u201d`, note: 'Boomerang — your topic gets cut off and it swings straight back to him' });
+  }
+  const wam = t.match(/what about me[^.!?…]{0,60}/i);
+  if (wam) {
+    obs.push({ quote: `\u201c${wam[0].trim()}\u201d`, note: '"What about me" — your feelings get rerouted to his' });
+  }
+  return obs;
+}
+
+/* ---- Build the 5 personality lines. All five render on every
+ * analysis; lines with no markers show what Vicky would watch for.
+ * Behavioral description only — never diagnosis. ---- */
+function buildPersonalityLines(text, hits, contradictions) {
+  return PERSONALITY_LINES.map(line => {
+    const observations = [];
+    if (line.id === 'empathy') {
+      observations.push(...empathyObservations(text));
+    } else {
+      const wanted = new Set(line.cueTypes);
+      for (const h of hits) {
+        if (wanted.has(h.cue)) {
+          observations.push({ quote: h.evidence || '', note: h.note });
+        }
+      }
+      if (line.id === 'consistency') {
+        for (const c of contradictions) {
+          observations.push({ quote: '', note: c.description });
+        }
+      }
+    }
+    return {
+      id: line.id,
+      name: line.name,
+      tagline: line.tagline,
+      markerCount: observations.length,
+      observations,
+      meaning: line.meaning,
+      nextStep: line.nextStep,
+      watchFor: line.watchFor
+    };
+  });
+}
+
 async function analyze({ text }) {
   const t = String(text || '');
   const hits = [];
@@ -247,6 +315,7 @@ async function analyze({ text }) {
 
   const rec = recommendPosture(sevNum, cueTypes);
   const drafts = buildDrafts(sevNum);
+  const personalityLines = buildPersonalityLines(t, hits, contradictions);
 
   return {
     provider: PROVIDER_ID,
@@ -258,6 +327,7 @@ async function analyze({ text }) {
     confidenceNote: 'Heuristic estimate from pattern matching (demo mode) — not a measured probability.',
     cues,
     contradictions,
+    personalityLines,
     recommendedPosture: rec.posture,
     recommendedPostureLabel: POSTURES[rec.posture],
     postureRationale: rec.rationale,

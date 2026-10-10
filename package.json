@@ -1,1 +1,18 @@
-{"dependencies":{"express":"^4.19.2","stripe":"^22.6.2"},"description":"V.I.K.e V1 — working web app scaffold. Personal safety copilot for women.","engines":{"node":">=18"},"license":"UNLICENSED","main":"server.js","name":"vike-v1","private":true,"scripts":{"start":"node server.js"},"version":"1.0.0"}
+{
+  "dependencies": {
+    "express": "^4.19.2",
+    "stripe": "^22.6.2"
+  },
+  "description": "V.I.K.e V1 — working web app. A private safety read for the dating world.",
+  "engines": {
+    "node": ">=18"
+  },
+  "license": "UNLICENSED",
+  "main": "server.js",
+  "name": "vike-v1",
+  "private": true,
+  "scripts": {
+    "start": "node server.js"
+  },
+  "version": "1.0.0"
+}

@@ -1,0 +1,230 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="light">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="theme-color" content="#FAF8F4">
+<meta name="description" content="Your data — the 10-point charter, one-tap export and delete. She owns her data.">
+<title>Your data — V.I.K.e™</title>
+<link rel="stylesheet" href="/styles.css">
+<link rel="icon" type="image/png" href="/icons/icon-192.png">
+<script>
+(function () {
+  try {
+    var t = localStorage.getItem('vike_theme');
+    if (!t) t = (window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches) ? 'dark' : 'light';
+    document.documentElement.setAttribute('data-theme', t);
+  } catch (e) { document.documentElement.setAttribute('data-theme', 'light'); }
+})();
+</script>
+</head>
+<body>
+<a class="skip" href="#main">Skip to content</a>
+<header class="site-header">
+  <a class="brand" href="/" aria-label="V.I.K.e home">
+    <svg class="arch" viewBox="0 0 48 48" aria-hidden="true">
+      <g fill="none" stroke="currentColor" stroke-width="4" stroke-linecap="round">
+        <path d="M8 42 V24 A16 16 0 0 1 40 24 V42"/>
+        <path d="M17 42 V27 A7 7 0 0 1 31 27 V42"/>
+      </g>
+    </svg>
+    <span class="wordmark">V.I.K.e<sup>™</sup></span>
+  </a>
+  <nav class="site-nav" aria-label="Site">
+    <a href="/about.html">About</a>
+    <a href="/data.html" aria-current="page">Your data</a>
+    <a href="/faq.html">FAQ</a>
+    <a href="/contact.html">Contact</a>
+  </nav>
+  <div class="header-right">
+    <span class="powered-badge" aria-label="Powered by Arbor">
+      <svg class="arch" viewBox="0 0 48 48" aria-hidden="true">
+        <g fill="none" stroke="currentColor" stroke-width="4" stroke-linecap="round">
+          <path d="M8 42 V24 A16 16 0 0 1 40 24 V42"/>
+          <path d="M17 42 V27 A7 7 0 0 1 31 27 V42"/>
+        </g>
+      </svg>
+      <span class="pb-powered">powered by</span><span class="pb-arbor">Arbor</span>
+    </span>
+    <button id="themeToggle" class="theme-toggle" aria-pressed="false" aria-label="Toggle dark mode">
+      <span aria-hidden="true">◐</span><span class="theme-label">Theme</span>
+    </button>
+  </div>
+</header>
+
+<main id="main" class="container">
+  <div class="hero reading">
+    <p class="eyebrow">She owns her data</p>
+    <h1 class="display">Your data.</h1>
+    <p class="lede">Yours. Not ours. Export it in one tap, delete it in one tap — and read exactly what we hold, below.</p>
+  </div>
+
+  <div class="reading">
+    <section class="block" style="padding-top:32px">
+      <h2>Export or delete — one tap</h2>
+      <div class="card">
+        <p class="note">Your evidence file lives only in this browser, on this device. Export a copy for yourself, or delete it entirely.</p>
+        <div class="row">
+          <button id="exportTxtBtn" class="btn-secondary">Export (text)</button>
+          <button id="exportJsonBtn" class="btn-secondary">Export (JSON)</button>
+          <button id="deleteAllBtn" class="btn-danger-ghost">Delete all</button>
+        </div>
+        <p id="dataStatus" class="status" role="status"></p>
+        <p class="hint">PDF export is coming soon — text and JSON are available today.</p>
+      </div>
+    </section>
+
+    <section class="block" style="padding-top:0">
+      <h2>The charter — word for word</h2>
+      <ol class="charter">
+        <li>Your data is yours. We hold it for you, to do work for you. Take it with you any time.</li>
+        <li>Never sold. Not to advertisers, data brokers, providers, or partners. No ad trackers.</li>
+        <li>Never used to train models. Not ours, not anyone's. The list of providers is public.</li>
+        <li>Export in one tap. Everything, in a readable format (PDF + JSON/CSV).</li>
+        <li>Delete in one tap. Gone from the live system right away, and from backups within 30 days.</li>
+        <li>Encrypted. In transit and at rest. Device-only rooms we can't read at all.</li>
+        <li>Collect the minimum. Each feature asks only for what it needs. Every connector is opt-in.</li>
+        <li>Your choice of home. Our encrypted cloud by default, or on your device only.</li>
+        <li>People see only what you share. Team access is limited, logged, and visible to you.</li>
+        <li>No quiet changes. New use of your data? We ask first, in plain words. Silence never counts as yes.</li>
+      </ol>
+      <p class="hint">On the export promise: text and JSON work today; PDF is coming soon, and we'll say so here when it lands.</p>
+    </section>
+
+    <section class="block" style="padding-top:0">
+      <h2>What we hold — the whole picture</h2>
+      <ul class="plain">
+        <li><strong>What you paste for screening.</strong> Travels to V.I.K.e's server so it can be analyzed — then it's gone. The server keeps no copy and no log of what you wrote.</li>
+        <li><strong>Your evidence file.</strong> Lives <strong>only in this browser, on this device</strong>. The server never sees it. Clearing your browser data or losing your phone means losing the file — export it if it matters to you.</li>
+        <li><strong>Screenshots: there are none.</strong> V.I.K.e doesn't accept photo or screenshot uploads — you paste text — so there's nothing uploaded, nothing stored, and no photo metadata to strip.</li>
+        <li><strong>Nominations and invite requests.</strong> Names and contact details you type into "Nominate a woman" or "Request an invite" are saved on our server (which resets if the server restarts). To export or delete these, write to <a href="mailto:seandonelon.apps@gmail.com?subject=V.I.K.e%20—%20please%20remove%20my%20nomination">seandonelon.apps@gmail.com</a> — a real person handles it.</li>
+        <li><strong>Anonymous tallies.</strong> Which pages get visited, how often features get used. No cookies, no name, no email, no account. Reset if the server restarts.</li>
+        <li><strong>Payments (when checkout opens).</strong> Card details go to Stripe — they never touch V.I.K.e's servers, and we never see or store them.</li>
+      </ul>
+      <h3>Providers</h3>
+      <p class="note">Today V.I.K.e runs in <strong>demo mode</strong>: analysis happens with on-server pattern matching, and nothing leaves V.I.K.e's server at all. When real AI analysis is switched on, pasted text is also sent to the configured AI service under that service's data policy — and the service name is shown in the app's status badge. We never train any model on your data, ever.</p>
+      <h3>What we will never do</h3>
+      <ul class="plain">
+        <li>Sell your data. There is nothing to sell — we barely hold anything.</li>
+        <li>Read your evidence file. We technically can't.</li>
+        <li>Contact anyone on your behalf, or share anything about you with anyone, for any reason.</li>
+      </ul>
+    </section>
+  </div>
+</main>
+
+<footer class="site-footer">
+  <div class="foot-grid">
+    <div>
+      <div class="foot-brand">
+        <svg class="arch" viewBox="0 0 48 48" aria-hidden="true">
+          <g fill="none" stroke="currentColor" stroke-width="4" stroke-linecap="round">
+            <path d="M8 42 V24 A16 16 0 0 1 40 24 V42"/>
+            <path d="M17 42 V27 A7 7 0 0 1 31 27 V42"/>
+          </g>
+        </svg>
+        <span class="wordmark">V.I.K.e<sup>™</sup></span>
+      </div>
+      <p>Get home safe.<br>A private safety read for the dating world.</p>
+    </div>
+    <div>
+      <h4>Product</h4>
+      <ul>
+        <li><a href="/#screen-analyze">Screen a conversation</a></li>
+        <li><a href="/#screen-evidence">Your file</a></li>
+        <li><a href="/#screen-circle">Your circle</a></li>
+        <li><a href="/#invite">Request an invite</a></li>
+      </ul>
+    </div>
+    <div>
+      <h4>Trust</h4>
+      <ul>
+        <li><a href="/about.html">About V.I.K.e</a></li>
+        <li><a href="/data.html">Your data</a></li>
+        <li><a href="/faq.html">FAQ</a></li>
+        <li><a href="/contact.html">Contact</a></li>
+      </ul>
+    </div>
+    <div>
+      <h4>Talk to a person</h4>
+      <p>A real person answers:<br><a href="mailto:seandonelon.apps@gmail.com">seandonelon.apps@gmail.com</a></p>
+      <p>In danger now? Call 911.</p>
+    </div>
+  </div>
+  <div class="foot-bottom">
+    <span class="powered-badge" aria-label="Powered by Arbor">
+      <svg class="arch" viewBox="0 0 48 48" aria-hidden="true">
+        <g fill="none" stroke="currentColor" stroke-width="4" stroke-linecap="round">
+          <path d="M8 42 V24 A16 16 0 0 1 40 24 V42"/>
+          <path d="M17 42 V27 A7 7 0 0 1 31 27 V42"/>
+        </g>
+      </svg>
+      <span class="pb-powered">powered by</span><span class="pb-arbor">Arbor</span>
+    </span>
+    <p class="foot-line">Powered by Arbor · The Arbor Group · She owns her data.</p>
+  </div>
+</footer>
+<script src="/js/analytics.js"></script>
+<script>
+(function () {
+  'use strict';
+  var KEY = 'vike_evidence_v1';
+  function load() { try { return JSON.parse(localStorage.getItem(KEY) || '[]'); } catch (e) { return []; } }
+  function store(l) { try { localStorage.setItem(KEY, JSON.stringify(l)); } catch (e) {} }
+  function status(t) { document.getElementById('dataStatus').textContent = t; }
+  function download(filename, content, type) {
+    var blob = new Blob([content], { type: type });
+    var url = URL.createObjectURL(blob);
+    var a = document.createElement('a');
+    a.href = url; a.download = filename;
+    document.body.appendChild(a); a.click(); a.remove();
+    setTimeout(function () { URL.revokeObjectURL(url); }, 4000);
+  }
+  function asText(list) {
+    var lines = ['V.I.K.e — Personal incident log', '================================',
+      'This is a personal contemporaneous log. It is NOT forensic chain-of-custody',
+      'and makes no legal claims. Generated from this browser only.', ''];
+    list.slice().reverse().forEach(function (e, i) {
+      lines.push('--- Entry ' + (i + 1) + ' — ' + new Date(e.ts).toLocaleString() + ' ---');
+      lines.push('Assessment: ' + e.severityLabel + ' (confidence ' + e.severityConfidence + '/100' + (e.demoMode ? ', DEMO analysis' : '') + ')');
+      lines.push('Recommended posture: ' + e.recommendedPosture);
+      if (e.cueLabels && e.cueLabels.length) lines.push('Flags: ' + e.cueLabels.join('; '));
+      lines.push('Excerpt: ' + e.excerpt);
+      lines.push('');
+    });
+    return lines.join('\n');
+  }
+  document.getElementById('exportTxtBtn').addEventListener('click', function () {
+    var list = load();
+    if (!list.length) { status('Nothing to export yet — screen a message first.'); return; }
+    download('vike-incident-log-' + new Date().toISOString().slice(0, 10) + '.txt', asText(list), 'text/plain');
+    status('Exported ' + list.length + ' entr' + (list.length === 1 ? 'y' : 'ies') + ' as text.');
+    if (window.trackEvent) window.trackEvent('export');
+  });
+  document.getElementById('exportJsonBtn').addEventListener('click', function () {
+    var list = load();
+    if (!list.length) { status('Nothing to export yet — screen a message first.'); return; }
+    download('vike-incident-log-' + new Date().toISOString().slice(0, 10) + '.json',
+      JSON.stringify({ exported: new Date().toISOString(), entries: list }, null, 2), 'application/json');
+    status('Exported ' + list.length + ' entr' + (list.length === 1 ? 'y' : 'ies') + ' as JSON.');
+    if (window.trackEvent) window.trackEvent('export');
+  });
+  document.getElementById('deleteAllBtn').addEventListener('click', function () {
+    if (!load().length) { status('Nothing to delete.'); return; }
+    if (confirm('Delete the entire evidence file from this device? This cannot be undone.')) {
+      store([]);
+      status('Deleted. Your evidence file is gone from this device.');
+      if (window.trackEvent) window.trackEvent('delete_all');
+    }
+  });
+  document.getElementById('themeToggle').addEventListener('click', function () {
+    var cur = document.documentElement.getAttribute('data-theme') || 'light';
+    var next = cur === 'dark' ? 'light' : 'dark';
+    document.documentElement.setAttribute('data-theme', next);
+    this.setAttribute('aria-pressed', next === 'dark' ? 'true' : 'false');
+    try { localStorage.setItem('vike_theme', next); } catch (e) {}
+  });
+})();
+</script>
+</body>
+</html>
