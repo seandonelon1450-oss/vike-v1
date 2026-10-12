@@ -598,3 +598,9 @@ ul.plain li strong { color: var(--ink); }
   .site-nav a { font-size: 14px; padding: 12px 8px; white-space: nowrap; }
   .theme-toggle .theme-label { display: none; }
 }
+
+/* ---------- guardian figures (brand humanoids) ---------- */
+.guardian-figure { text-align: center; margin: 36px auto 8px; }
+.guardian-figure img { width: 100%; max-width: 380px; height: auto; border-radius: 22px; display: block; margin: 0 auto; }
+.guardian-figure figcaption { margin-top: 14px; font-size: 15px; opacity: .78; }
+@media (min-width: 768px) { .guardian-figure img { max-width: 440px; } }
